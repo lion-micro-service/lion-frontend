@@ -1,0 +1,17 @@
+{
+  "name": "lion-scaffold-front-component-login",
+  "version": "1.0.0",
+  "description": "前端登陆页面",
+  "private": false,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@lion/lion-scaffola-front-dependencies": "1.0.0",
+    "@lion/lion-scaffold-front-component-core": "1.0.0"
+  },
+  "devDependencies": {
+    "@lion/lion-scaffola-front-devdependencies": "1.0.0"
+  }
+}

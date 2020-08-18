@@ -1,0 +1,24 @@
+{
+  "name": "@lion/lion-scaffold-front-component-frame",
+  "version": "0.1.0",
+  "description": "前端脚手架",
+  "private": false,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lion-serve": "vue-cli-service lion-serve"
+  },
+  "dependencies": {
+    "@lion/lion-scaffola-front-dependencies": "^1.0.0",
+    "@lion/lion-scaffold-front-component-core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@lion/lion-scaffola-front-devdependencies": "^1.0.0",
+    "@vue/cli-plugin-typescript": "~4.3.0"
+  },
+  "vuePlugins": {
+    "service": [
+      "./vue-cli-plugin-lion-serve"
+    ]
+  }
+}

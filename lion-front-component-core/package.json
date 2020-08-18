@@ -1,0 +1,20 @@
+{
+  "name": "@lion/lion-scaffold-front-component-core",
+  "version": "1.0.0",
+  "description": "前端脚手架core",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mr.Liu",
+  "license": "ISC",
+  "devDependencies": {
+    "glob": "~7.1.6"
+  },
+  "publishConfig": {
+    "registry": "http://127.0.0.1:8081/repository/hosted-repository-npm/"
+  },
+  "dependencies": {
+    "@lion/lion-scaffola-front-dependencies": "^1.0.0"
+  }
+}
