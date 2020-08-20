@@ -1,4 +1,4 @@
-# lion-scaffold-front-component-frame
+# lion-front-component-frame
 
 ## Project setup
 ```

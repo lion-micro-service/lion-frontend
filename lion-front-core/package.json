@@ -1,5 +1,5 @@
 {
-  "name": "@lion/lion-scaffold-front-component-core",
+  "name": "@lion/lion-front-core",
   "version": "1.0.0",
   "description": "前端脚手架core",
   "main": "src/index.js",
@@ -15,6 +15,6 @@
     "registry": "http://127.0.0.1:8081/repository/hosted-repository-npm/"
   },
   "dependencies": {
-    "@lion/lion-scaffola-front-dependencies": "^1.0.0"
+    "@lion/lion-front-dependencies": "^1.0.0"
   }
 }

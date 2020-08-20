@@ -7,7 +7,7 @@
                 </a-input>
             </a-form-model-item>
             <a-form-model-item prop="password" ref="password">
-                <a-input size="large" type="password" placeholder="密码" v-model="loginModel.password">
+                <a-input size="large" type="password" placeholder="密码" v-model="loginModel.pass">
                     <a-icon slot="prefix" type='lock' style="color:rgba(0,0,0,.25)"/>
                 </a-input>
             </a-form-model-item>
@@ -23,8 +23,8 @@
 <script lang="ts">
     import {Vue,Component,Prop } from "vue-property-decorator";
     import { FormModel } from 'ant-design-vue';
-    import axios from "@lion/lion-scaffold-front-component-core/src/network/axios";
-    import {Md5} from "ts-md5/dist/md5";
+    import axios from "@lion/lion-front-core/src/network/axios";
+    var md5 = require('md5');
     Vue.use(FormModel);
     @Component({})
     export default class Index extends Vue{
@@ -32,7 +32,8 @@
         //登陆model
         private loginModel :any ={
             username: "",
-            password: "",
+            pass: "",
+            password:"",
             grant_type : "password",
             scope : "console",
             client_id : "console",
@@ -41,20 +42,21 @@
 
         //校验规则
         private rules : any ={
-            username:[{required:true,message:'请输入用户名'}],
-            password:[{required:true,message:'请输入密码',trigger:'blur'}]
+            username:[{required:true,message:'请输入用户名',trigger:'blur'}],
+            pass:[{required:true,message:'请输入密码',trigger:'blur'}]
         }
 
         private login(event:any):void {
             event.preventDefault();
             (this.$refs.ruleForm as any).validate((valid: boolean) => {
                 if (valid) {
-                    this.loginModel.password = Md5.hashStr(this.loginModel.password);
+                    console.log(md5(this.loginModel.pass));
+                    this.loginModel.password = md5(this.loginModel.pass);
                     const formData = new FormData();
                     Object.keys(this.loginModel).forEach((key) => {
                         formData.append(key, this.loginModel[key]);
                     });
-                    axios.post("http://127.0.0.1:9090/api/oauth/token",formData,{})
+                    axios.post("http://127.0.0.1:9090/oauth/token",formData,{})
                     .then(success => {
                         }
                     ).catch(fail => {

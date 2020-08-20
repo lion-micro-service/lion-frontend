@@ -15,7 +15,7 @@ const removePending: any = (config: any, f: any) => {
     if (pending.indexOf(flagUrl) !== -1) {
         // 如果在请求中，并存在f,f即axios提供的取消函数
         if (f) {
-            f('取消重复请求'); // 执行取消操作
+            f('cancelDuplicateRequest'); // 执行取消操作
         } else {
             pending.splice(pending.indexOf(flagUrl), 1); // 把这条记录从数组中移除
         }
@@ -52,7 +52,7 @@ service.interceptors.response.use(
     (response: any) => {
         // 移除队列中的该请求，注意这时候没有传第二个参数f
         removePending(response.config);
-        // 获取返回数据，并处理。按自己业务需求修改。下面只是个demo
+        // 获取返回数据，并处理。
         if (response.data.status !== 200) {
             if(response.data.message){
                 message.error(response.data.message);
@@ -71,7 +71,7 @@ service.interceptors.response.use(
         // 异常处理
         console.log(error)
         pending = [];
-        if (error.message === '取消重复请求') {
+        if (error.message === 'cancelDuplicateRequest') {
             // @ts-ignore
             return Promise.reject(error);
         }

@@ -1,4 +1,4 @@
-let pages = require('@lion/lion-scaffold-front-component-core/src/webpack/vue.config')
+let pages = require('@lion/lion-front-core/src/webpack/vue.config')
 
 module.exports = {
     "pages":pages.pages(),

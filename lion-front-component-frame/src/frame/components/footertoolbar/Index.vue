@@ -6,7 +6,7 @@
         <div class="right">
             <slot name ="children">
                 <div slot="children" style="textAlign: center">
-                    Lion ©2020-2021 Created by <a href="#" onclick="window.open('https://github.com/cloud-scaffold/');">Mr.Liu</a>
+                    Lion ©2020-2021 Created by <a href="#" onclick="window.open('https://github.com/lion-micro-service');">Mr.Liu</a>
                 </div>
             </slot>
         </div>

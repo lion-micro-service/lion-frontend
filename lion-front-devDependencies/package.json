@@ -1,5 +1,5 @@
 {
-  "name": "@lion/lion-scaffola-front-devdependencies",
+  "name": "@lion/lion-front-devDependencies",
   "version": "1.0.0",
   "description": "统一版本号管理",
   "main": "index.js",

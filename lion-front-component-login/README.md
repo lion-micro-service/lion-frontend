@@ -1,4 +1,4 @@
-# lion-scaffold-front-component-login
+# lion-front-component-login
 
 ## Project setup
 ```

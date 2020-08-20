@@ -1,5 +1,5 @@
 {
-  "name": "@lion/lion-scaffold-front-component-frame",
+  "name": "@lion/lion-front-component-frame",
   "version": "0.1.0",
   "description": "前端脚手架",
   "private": false,
@@ -9,11 +9,10 @@
     "lion-serve": "vue-cli-service lion-serve"
   },
   "dependencies": {
-    "@lion/lion-scaffola-front-dependencies": "^1.0.0",
-    "@lion/lion-scaffold-front-component-core": "^1.0.0"
+    "@lion/lion-front-core": "^1.0.0"
   },
   "devDependencies": {
-    "@lion/lion-scaffola-front-devdependencies": "^1.0.0",
+    "@lion/lion-front-devDependencies": "^1.0.0",
     "@vue/cli-plugin-typescript": "~4.3.0"
   },
   "vuePlugins": {
