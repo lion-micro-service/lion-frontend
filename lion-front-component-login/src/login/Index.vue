@@ -50,13 +50,12 @@
             event.preventDefault();
             (this.$refs.ruleForm as any).validate((valid: boolean) => {
                 if (valid) {
-                    console.log(md5(this.loginModel.pass));
                     this.loginModel.password = md5(this.loginModel.pass);
                     const formData = new FormData();
                     Object.keys(this.loginModel).forEach((key) => {
                         formData.append(key, this.loginModel[key]);
                     });
-                    axios.post("http://127.0.0.1:9090/oauth/token",formData,{})
+                    axios.post("/oauth/token",formData,{})
                     .then(success => {
                         }
                     ).catch(fail => {

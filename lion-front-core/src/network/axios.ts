@@ -6,6 +6,7 @@ import { message } from 'ant-design-vue'
 
 /* 防止重复提交，利用axios的cancelToken */
 let pending: any[] = []; // 声明一个数组用于存储每个ajax请求的取消函数和ajax标识
+
 const CancelToken: any = axios.CancelToken;
 
 const removePending: any = (config: any, f: any) => {
@@ -26,10 +27,10 @@ const removePending: any = (config: any, f: any) => {
         }
     }
 };
-
 /* 创建axios实例 */
 const service = axios.create({
-    timeout: 5000, // 请求超时时间
+    baseURL: process.env.VUE_APP_BASEAPI,
+    timeout: 5000 // 请求超时时间
 });
 
 /* request拦截器 */

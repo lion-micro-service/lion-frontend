@@ -4,7 +4,7 @@
   "description": "前端脚手架",
   "private": false,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --mode dev",
     "build": "vue-cli-service build",
     "lion-serve": "vue-cli-service lion-serve"
   },
@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@lion/lion-front-devDependencies": "^1.0.0",
-    "@vue/cli-plugin-typescript": "~4.3.0"
+    "@vue/cli-plugin-typescript": "^4.5.4"
   },
   "vuePlugins": {
     "service": [
