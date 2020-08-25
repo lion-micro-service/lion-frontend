@@ -1,49 +1,47 @@
 <template>
     <div>
-        <a-form-model ref="ruleForm" :model="searchModel" >
-            <a-card class="card" :bordered="false">
-                <a-row :gutter="40">
-                    <a-col :xs="8">
-                        <a-form-model-item prop="name" ref="name" >
-                            <a-input addonBefore="姓名:" placeholder="请输入" v-model="searchModel.name" />
+        <a-card class="card" :bordered="false">
+            <a-form-model layout="inline" ref="from" :model="searchModel" >
+                <a-row>
+                    <a-col :span="6">
+                        <a-form-model-item label="登陆账号" prop="username" ref="username" >
+                            <a-input placeholder="请输入登陆账号" v-model="searchModel.username"/>
                         </a-form-model-item>
                     </a-col>
-                    <a-col :xs="8">
-                        <a-form-model-item prop="name" ref="name" >
-                            <a-input addonBefore="姓名:" placeholder="请输入" v-model="searchModel.name" />
+                    <a-col :span="6">
+                        <a-form-model-item label="姓名" prop="name" ref="name" >
+                            <a-input placeholder="请输入姓名" v-model="searchModel.name"/>
                         </a-form-model-item>
                     </a-col>
-                    <a-col :xs="8">
-                        <a-form-model-item prop="name" ref="name" >
-                            <a-input addonBefore="姓名:" placeholder="请输入" v-model="searchModel.name" />
+                    <a-col :span="6">
+                        <a-form-model-item label="年龄" prop="age" ref="age" >
+                            <a-input-number placeholder="请输入年龄" v-model="searchModel.age"/>
                         </a-form-model-item>
                     </a-col>
-                </a-row>
-                <a-row :gutter="40">
-                    <a-col :xs="8">
-                        <a-form-model-item prop="name" ref="name" >
-                            <a-input addonBefore="姓名:" placeholder="请输入" v-model="searchModel.name" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col :xs="8">
-                        <a-form-model-item prop="name" ref="name" >
-                            <a-input addonBefore="姓名:" placeholder="请输入" v-model="searchModel.name" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col :xs="8">
-                        <a-form-model-item prop="name" ref="name" >
-                            <a-input addonBefore="姓名:" placeholder="请输入" v-model="searchModel.name" />
+                    <a-col :span="6">
+                        <a-form-model-item label="邮箱" prop="email" ref="email" >
+                            <a-input placeholder="请输入邮箱" v-model="searchModel.email"/>
                         </a-form-model-item>
                     </a-col>
                 </a-row>
-
-                <a-form-item style="text-align:right;">
-                    <a-button type="primary" icon="search" @click="search()">查询</a-button>
-                    <a-button type="primary" icon="file-add">添加</a-button>
-                    <a-button type="danger" icon="delete">删除</a-button>
-                </a-form-item>
-            </a-card>
-        </a-form-model>
+                <a-row>
+                    <a-col :span="6">
+                        <a-form-model-item label="生日" prop="birthday" ref="birthday" >
+                            <a-date-picker placeholder="请输入生日" v-model="searchModel.birthday" />
+                        </a-form-model-item>
+                    </a-col>
+                </a-row>
+                <a-row >
+                    <a-col :span="24" style="text-align:right;">
+                        <a-form-item>
+                            <a-button type="primary" icon="search" @click="search()">查询</a-button>
+                            <a-button type="primary" icon="file-add" @click="add()">添加</a-button>
+                            <a-button type="danger" icon="delete">删除</a-button>
+                        </a-form-item>
+                    </a-col>
+                </a-row>
+            </a-form-model>
+        </a-card>
 
         <a-card :bordered="false">
             <a-table rowKey="id" :columns="columns" :dataSource="data" :loading="loading" :pagination="paginationProps">
@@ -56,11 +54,17 @@
 <script lang="ts">
     import {Component, Emit, Inject, Model, Prop, Provide, Vue, Watch} from 'vue-property-decorator';
     import axios from "@lion/lion-front-core/src/network/axios";
+
     @Component({})
     export default class List extends Vue{
 
+
+
+        private create():void {
+        }
+
         private searchModel : any ={
-            name : "",
+            email:"",
             pageNumber:1,
             pageSize:1
         }
@@ -117,13 +121,27 @@
                 );
         }
 
+        private add():void{
+            this.$router.push("/test/add");
+        }
 
-
+        private emailChange(value:string):void{
+            this.searchModel.email =
+                !value || value.indexOf('@') >= 0
+                    ? []
+                    : [`${value}@gmail.com`, `${value}@163.com`, `${value}@qq.com`];
+        }
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="css" scoped>
+    .ant-form-item >>> .ant-form-item-label{
+        width: 80px;
+    }
     .ant-form-item{
-        margin-bottom: 0px;
+        width: 100%;
+    }
+    .ant-row >>> .ant-form-item-control-wrapper{
+        width: calc(100% - 80px);
     }
 </style>

@@ -6,17 +6,17 @@ Vue.use(VueRouter);
 const routes : Array<RouteConfig> = [{
     path:'/test',
     name:'测试',
-    redirect:'/test/list',
-    // children:[{
-    //     path:'/list',
-    //     name:'测试列表',
-    //     component: list
-    // }]
-    },
-    {
+    redirect:'/test/list'
+    },{
         path:'/test/list',
         name:'测试列表',
-        component: () => import('@/test/views/List.vue')
+        component: () => import('@/test/views/List.vue'),
+        meta: {keepAlive: true }
+    },{
+        path:'/test/add',
+        name:'测试新增',
+        component: () => import('@/test/views/AddOrUpdate.vue'),
+        meta: {keepAlive: false }
     }
 ];
 
