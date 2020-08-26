@@ -48,8 +48,8 @@
 
         private login(event:any):void {
             event.preventDefault();
-            (this.$refs.ruleForm as any).validate((valid: boolean) => {
-                if (valid) {
+            (this.$refs.ruleForm as any).validate((validate: boolean) => {
+                if (validate) {
                     this.loginModel.password = md5(this.loginModel.pass);
                     const formData = new FormData();
                     Object.keys(this.loginModel).forEach((key) => {

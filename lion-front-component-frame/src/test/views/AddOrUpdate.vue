@@ -119,8 +119,8 @@
 
 
         private save():void{
-            (this.$refs.form as any).validate((valid: boolean) => {
-                if (!valid) {
+            (this.$refs.form as any).validate((validate: boolean) => {
+                if (!validate) {
 
                 }
             });
