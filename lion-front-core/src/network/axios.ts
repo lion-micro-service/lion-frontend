@@ -70,7 +70,7 @@ service.interceptors.response.use(
     },
     (error: any) => {
         // 异常处理
-        console.log(error)
+        message.error(error);
         pending = [];
         if (error.message === 'cancelDuplicateRequest') {
             // @ts-ignore
@@ -80,5 +80,8 @@ service.interceptors.response.use(
         return Promise.reject(error);
     },
 );
+function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export default service;

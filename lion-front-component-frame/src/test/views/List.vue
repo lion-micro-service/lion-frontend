@@ -45,7 +45,10 @@
 
         <a-card :bordered="false">
             <a-table rowKey="id" :columns="columns" :dataSource="data" :loading="loading" :pagination="paginationProps">
-
+                <span slot="action" slot-scope="text, record">
+                    <a-button icon="edit" size="small">修改</a-button>
+                    <a-button type="danger" icon="delete" size="small" @click='del(record.id)'>删除</a-button>
+                </span>
             </a-table>
         </a-card>
     </div>
@@ -54,19 +57,15 @@
 <script lang="ts">
     import {Component, Emit, Inject, Model, Prop, Provide, Vue, Watch} from 'vue-property-decorator';
     import axios from "@lion/lion-front-core/src/network/axios";
-
+    import { message } from 'ant-design-vue'
     @Component({})
     export default class List extends Vue{
-
-
-
         private create():void {
         }
 
         private searchModel : any ={
-            email:"",
             pageNumber:1,
-            pageSize:1
+            pageSize:10
         }
 
         private data:Array<any> = [];
@@ -77,23 +76,25 @@
         private columns :Array<any> = [
             { title: '姓名', dataIndex: 'name', key: 'name' },
             { title: '邮箱', dataIndex: 'email', key: 'email'},
-            { title: '年龄', dataIndex: 'age', key: 'age' }
+            { title: '年龄', dataIndex: 'age', key: 'age' },
+            { title: '操作', key: 'action', scopedSlots: { customRender: 'action' },width: 180,}
         ];
 
         private paginationProps:any={
-            showSizeChanger: true,
+            showSizeChanger: false,
             showQuickJumper: true,
-            current:this.searchModel.pageNumber,
-            pageSize:this.searchModel.pageSize,
             hideOnSinglePage:false,
             pageSizeOptions:['10', '20', '30', '40','50','60','70','80','90','100'],
+            total:0,
+            current:1,
+            pageSize:10,
             showSizeChange: (pageNumber:number, pageSize: number)=>this.paginationSearch(pageNumber,pageSize),
             onChange: (pageNumber:number, pageSize: number)=>this.paginationSearch(pageNumber,pageSize),
         };
 
-        private mounted() :void{
-            this.search();
-        }
+        // private mounted() :void{
+        //     this.search();
+        // }
 
         private paginationSearch(pageNumber:number, pageSize: number):void{
             this.searchModel.pageNumber=pageNumber;
@@ -125,11 +126,25 @@
             this.$router.push("/test/add");
         }
 
-        private emailChange(value:string):void{
-            this.searchModel.email =
-                !value || value.indexOf('@') >= 0
-                    ? []
-                    : [`${value}@gmail.com`, `${value}@163.com`, `${value}@qq.com`];
+        @Watch("$route", { immediate: true,deep: true })
+        private onRouteChange(route: any):void {
+            if (route.path === "/test/list"){
+                this.search();
+            }
+        }
+
+        private del(id:number):void{
+            axios.delete("/upms/user/console/delete",{params:{id:id}})
+            .then((data)=>{
+                if((Object(data)).message){
+                    message.success((Object(data)).message);
+                }
+                this.search();
+            }).catch((fail)=>{
+
+            }).finally(()=>{
+
+            })
         }
     }
 </script>

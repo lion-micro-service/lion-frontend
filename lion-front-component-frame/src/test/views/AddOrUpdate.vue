@@ -9,13 +9,13 @@
                         </a-form-model-item>
                     </a-col>
                     <a-col :span="8">
-                        <a-form-model-item label="密码" prop="password" ref="password" >
-                            <a-input-password placeholder="请输入密码" v-model="addModel.password" autocomplete="off"/>
+                        <a-form-model-item label="密码" prop="pass" ref="pass" >
+                            <a-input-password placeholder="请输入密码" v-model="addModel.pass" autocomplete="off"/>
                         </a-form-model-item>
                     </a-col>
                     <a-col :span="8">
-                        <a-form-model-item label="确认密码" prop="confirmPassword" ref="confirmPassword" >
-                            <a-input-password placeholder="请输入确认密码" v-model="addModel.confirmPassword" autocomplete="off"/>
+                        <a-form-model-item label="确认密码" prop="confirmPass" ref="confirmPass" >
+                            <a-input-password placeholder="请输入确认密码" v-model="addModel.confirmPass" autocomplete="off"/>
                         </a-form-model-item>
                     </a-col>
                 </a-row>
@@ -39,7 +39,7 @@
                 <a-row>
                     <a-col :span="8">
                         <a-form-model-item label="生日" prop="birthday" ref="birthday" >
-                            <a-date-picker placeholder="请输入生日" v-model="addModel.birthday" />
+                            <a-date-picker placeholder="请输入生日" valueFormat="YYYY-MM-DD" v-model="addModel.birthday" />
                         </a-form-model-item>
                     </a-col>
                 </a-row>
@@ -61,6 +61,8 @@
 <script lang="ts">
     import {Component, Emit, Inject, Model, Prop, Provide, Vue, Watch} from 'vue-property-decorator';
     import axios from "@lion/lion-front-core/src/network/axios";
+    import { message } from 'ant-design-vue'
+    let md5 = require('md5');
     @Component({})
     export default class AddOrUpdate extends Vue{
 
@@ -70,8 +72,8 @@
 
         private rules:any={
             username:[{required:true,validator:this.checkUsernameIsExist,trigger:'blur'}],
-            password:[{required:true,validator:this.validatorPassword, trigger:'blur'}],
-            confirmPassword:[{required:true,validator:this.validatorConfimPassword, trigger:'blur'}],
+            pass:[{required:true,validator:this.validatorPass, trigger:'blur'}],
+            confirmPass:[{required:true,validator:this.validatorConfimPass, trigger:'blur'}],
         };
 
         private checkUsernameIsExist(rule :any, value:string, callback:any):void{
@@ -97,31 +99,42 @@
 
         }
 
-        private validatorPassword(rule :any, value:string, callback:any):void{
+        private validatorPass(rule :any, value:string, callback:any):void{
             if (!value || value.trim() === ''){
                 callback(new Error('请输入密码'));
             }else{
-                if (this.addModel.confirmPassword && this.addModel.confirmPassword.trim() !== ''){
-                    (this.$refs.form as any).validateField("confirmPassword");
+                if (this.addModel.confirmPass && this.addModel.confirmPass.trim() !== ''){
+                    (this.$refs.form as any).validateField("confirmPass");
                 }
                 callback();
             }
         }
 
-        private validatorConfimPassword(rule :any, value:string, callback:any):void{
+        private validatorConfimPass(rule :any, value:string, callback:any):void{
             if (!value || value.trim() === '' ){
                 callback(new Error("请输入确认密码！"));
-            }else if (this.addModel.password !== this.addModel.confirmPassword){
+            }else if (this.addModel.pass !== this.addModel.confirmPass){
                 callback(new Error("两次输入的密码不一致！"));
             }
             callback();
         }
 
 
+
         private save():void{
             (this.$refs.form as any).validate((validate: boolean) => {
-                if (!validate) {
+                if (validate) {
+                    this.addModel.password = md5(this.addModel.pass);
+                    axios.post("/upms/user/console/add",this.addModel)
+                    .then((data) =>{
+                        if((Object(data)).message){
+                            message.success((Object(data)).message);
+                        }
+                    }).catch((fail)=>{
 
+                    }).finally(()=>{
+
+                    })
                 }
             });
         };
@@ -133,6 +146,11 @@
         private reset():void{
             (this.$refs.form as any).resetFields();
             this.addModel = {};
+        }
+
+
+        private sleep(time:number):any {
+            return new Promise((resolve) => setTimeout(resolve, time));
         }
 
     }

@@ -9,7 +9,8 @@
     "lion-serve": "vue-cli-service lion-serve"
   },
   "dependencies": {
-    "@lion/lion-front-core": "^1.0.0"
+    "@lion/lion-front-core": "^1.0.0",
+    "md5": "^2.3.0"
   },
   "devDependencies": {
     "@lion/lion-front-devDependencies": "^1.0.0",

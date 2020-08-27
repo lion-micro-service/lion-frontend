@@ -24,7 +24,7 @@
     import {Vue,Component,Prop } from "vue-property-decorator";
     import { FormModel } from 'ant-design-vue';
     import axios from "@lion/lion-front-core/src/network/axios";
-    var md5 = require('md5');
+    let md5 = require('md5');
     Vue.use(FormModel);
     @Component({})
     export default class Index extends Vue{
