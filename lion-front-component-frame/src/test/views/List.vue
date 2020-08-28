@@ -36,7 +36,7 @@
                         <a-form-item>
                             <a-button type="primary" icon="search" @click="search()">查询</a-button>
                             <a-button type="primary" icon="file-add" @click="add()">添加</a-button>
-                            <a-button type="danger" icon="delete">删除</a-button>
+                            <a-button type="danger" icon="delete" @click="del()">删除</a-button>
                         </a-form-item>
                     </a-col>
                 </a-row>
@@ -44,9 +44,9 @@
         </a-card>
 
         <a-card :bordered="false">
-            <a-table rowKey="id" :columns="columns" :dataSource="data" :loading="loading" :pagination="paginationProps">
+            <a-table :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }" rowKey="id" :columns="columns" :dataSource="data" :loading="loading" :pagination="paginationProps">
                 <span slot="action" slot-scope="text, record">
-                    <a-button icon="edit" size="small">修改</a-button>
+                    <a-button icon="edit" size="small" @click="edit(record.id)">修改</a-button>
                     <a-button type="danger" icon="delete" size="small" @click='del(record.id)'>删除</a-button>
                 </span>
             </a-table>
@@ -57,7 +57,8 @@
 <script lang="ts">
     import {Component, Emit, Inject, Model, Prop, Provide, Vue, Watch} from 'vue-property-decorator';
     import axios from "@lion/lion-front-core/src/network/axios";
-    import { message } from 'ant-design-vue'
+    import { message } from 'ant-design-vue';
+    import qs from 'qs';
     @Component({})
     export default class List extends Vue{
         private create():void {
@@ -67,6 +68,8 @@
             pageNumber:1,
             pageSize:10
         }
+
+        private selectedRowKeys:Array<number> = [];
 
         private data:Array<any> = [];
         private loading:boolean=false;
@@ -107,23 +110,23 @@
             axios.get("/upms/user/console/list",{params:this.searchModel})
                 .then((data)=>{
                         this.data=data.data.list;
-                        this.paginationProps.total=(Object(data)).totalElements;
+                        this.paginationProps.total=Number((Object(data)).totalElements);
                         this.paginationProps.current=(Object(data)).pageNumber;
                         this.paginationProps.pageSize=(Object(data)).pageSize;
-                    }
-                )
+                })
                 .catch(fail => {
-
-                    }
-                )
+                })
                 .finally(()=>{
                         this.loading=false;
-                    }
-                );
+                });
         }
 
         private add():void{
             this.$router.push("/test/add");
+        }
+
+        private edit(id:string):void{
+            this.$router.push({ path: '/test/add', query: { id: id }});
         }
 
         @Watch("$route", { immediate: true,deep: true })
@@ -133,8 +136,23 @@
             }
         }
 
-        private del(id:number):void{
-            axios.delete("/upms/user/console/delete",{params:{id:id}})
+        private onSelectChange(selectedRowKeys:Array<number>):void{
+            this.selectedRowKeys = selectedRowKeys;
+        }
+
+        private del(id:any):void{
+            if (!id){
+                if (this.selectedRowKeys.length <=0 ){
+                    message.error("请选择要删除的数据");
+                    return;
+                }else{
+                    id = this.selectedRowKeys;
+                }
+            }
+            axios.delete("/upms/user/console/delete",{params:{id:id},
+                paramsSerializer: params => {
+                    return qs.stringify(params, { indices: false })
+            }})
             .then((data)=>{
                 if((Object(data)).message){
                     message.success((Object(data)).message);

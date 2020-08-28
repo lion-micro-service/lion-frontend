@@ -5,17 +5,17 @@
                 <a-row >
                     <a-col :span="8">
                         <a-form-model-item label="登陆账号" prop="username" ref="username" >
-                            <a-input placeholder="请输入登陆账号" v-model="addModel.username"  autocomplete="off"/>
+                            <a-input v-bind:disabled="usernameDisabled" placeholder="请输入登陆账号" v-model="addModel.username"  autocomplete="off"/>
                         </a-form-model-item>
                     </a-col>
                     <a-col :span="8">
                         <a-form-model-item label="密码" prop="pass" ref="pass" >
-                            <a-input-password placeholder="请输入密码" v-model="addModel.pass" autocomplete="off"/>
+                            <a-input-password v-bind:disabled="passDisabled" placeholder="请输入密码" v-model="addModel.pass" autocomplete="off"/>
                         </a-form-model-item>
                     </a-col>
                     <a-col :span="8">
                         <a-form-model-item label="确认密码" prop="confirmPass" ref="confirmPass" >
-                            <a-input-password placeholder="请输入确认密码" v-model="addModel.confirmPass" autocomplete="off"/>
+                            <a-input-password v-bind:disabled="confirmPassDisabled" placeholder="请输入确认密码" v-model="addModel.confirmPass" autocomplete="off"/>
                         </a-form-model-item>
                     </a-col>
                 </a-row>
@@ -48,7 +48,7 @@
                     <a-col :span="24" style="text-align:center;">
                         <a-form-item >
                             <a-button type="primary" icon="save" @click="save()">保存</a-button>
-                            <a-button type="dashed" icon="undo" @click="reset()">重置</a-button>
+                            <a-button v-bind:disabled="resetDisabled" type="dashed" icon="undo" @click="reset()">重置</a-button>
                             <a-button icon="rollback" @click="back()">返回</a-button>
                         </a-form-item>
                     </a-col>
@@ -66,7 +66,10 @@
     @Component({})
     export default class AddOrUpdate extends Vue{
 
-        private searchUsername :boolean = false;
+        private usernameDisabled:boolean = false;
+        private passDisabled:boolean = false;
+        private confirmPassDisabled:boolean = false;
+        private resetDisabled:boolean = false;
 
         private addModel : any={};
 
@@ -74,6 +77,7 @@
             username:[{required:true,validator:this.checkUsernameIsExist,trigger:'blur'}],
             pass:[{required:true,validator:this.validatorPass, trigger:'blur'}],
             confirmPass:[{required:true,validator:this.validatorConfimPass, trigger:'blur'}],
+            email:[{validator:this.validatorEmail, trigger:'blur'}]
         };
 
         private checkUsernameIsExist(rule :any, value:string, callback:any):void{
@@ -99,6 +103,25 @@
 
         }
 
+        private validatorEmail(rule :any, value:string, callback:any):void{
+            if (value && value.trim() !== ''){
+                axios.get("/upms/user/console/email/exist",{params:{email:value}})
+                .then((data)=>{
+                    if (data.data.isExist){
+                        callback(new Error('该邮箱已存在'));
+                    }else {
+                        callback();
+                    }
+                }).catch(error=>{
+
+                }).finally(()=>{
+
+                })
+            }else{
+                callback();
+            }
+        }
+
         private validatorPass(rule :any, value:string, callback:any):void{
             if (!value || value.trim() === ''){
                 callback(new Error('请输入密码'));
@@ -119,7 +142,27 @@
             callback();
         }
 
+        private mounted():void{
+            const id = this.$route.query.id;
+            if (id){
+                this.usernameDisabled=true;
+                this.passDisabled = true;
+                this.confirmPassDisabled = true;
+                this.resetDisabled = true;
+                this.getUserInfo(String(this.$route.query.id));
+            }
+        }
 
+        private getUserInfo(id:string):void{
+            axios.get("/upms/user/console/info",{params:{id:id}})
+                .then((data)=>{
+                    this.addModel = data.data.user;
+                }).catch(error=>{
+
+            }).finally(()=>{
+
+            });
+        }
 
         private save():void{
             (this.$refs.form as any).validate((validate: boolean) => {
@@ -147,12 +190,6 @@
             (this.$refs.form as any).resetFields();
             this.addModel = {};
         }
-
-
-        private sleep(time:number):any {
-            return new Promise((resolve) => setTimeout(resolve, time));
-        }
-
     }
 </script>
 
