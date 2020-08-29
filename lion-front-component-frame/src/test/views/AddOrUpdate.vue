@@ -81,6 +81,11 @@
         };
 
         private checkUsernameIsExist(rule :any, value:string, callback:any):void{
+            const id = this.$route.query.id;
+            if(id){
+                callback();
+                return;
+            }
             if (!value || value.trim() === ''){
                 callback(new Error('请输入登陆账号'));
                 return;
@@ -104,8 +109,9 @@
         }
 
         private validatorEmail(rule :any, value:string, callback:any):void{
+            const id = this.$route.query.id;
             if (value && value.trim() !== ''){
-                axios.get("/upms/user/console/email/exist",{params:{email:value}})
+                axios.get("/upms/user/console/email/exist",{params:{email:value,id:id}})
                 .then((data)=>{
                     if (data.data.isExist){
                         callback(new Error('该邮箱已存在'));
@@ -123,6 +129,11 @@
         }
 
         private validatorPass(rule :any, value:string, callback:any):void{
+            const id = this.$route.query.id;
+            if(id){
+                callback();
+                return;
+            }
             if (!value || value.trim() === ''){
                 callback(new Error('请输入密码'));
             }else{
@@ -134,6 +145,11 @@
         }
 
         private validatorConfimPass(rule :any, value:string, callback:any):void{
+            const id = this.$route.query.id;
+            if(id){
+                callback();
+                return;
+            }
             if (!value || value.trim() === '' ){
                 callback(new Error("请输入确认密码！"));
             }else if (this.addModel.pass !== this.addModel.confirmPass){
