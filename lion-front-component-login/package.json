@@ -1,5 +1,5 @@
 {
-  "name": "lion-front-component-login",
+  "name": "@lion/lion-front-component-login",
   "version": "1.0.0",
   "description": "前端登陆页面",
   "private": false,
@@ -10,11 +10,15 @@
   },
   "dependencies": {
     "@lion/lion-front-core": "^1.0.0",
+    "element-ui": "^2.13.2",
     "md5": "^2.3.0"
   },
   "devDependencies": {
     "@lion/lion-front-devDependencies": "^1.0.0",
     "@vue/cli-plugin-typescript": "^4.5.4"
+  },
+  "publishConfig": {
+    "registry": "http://127.0.0.1:8081/repository/hosted-repository-npm/"
   },
   "vuePlugins": {
     "service": [

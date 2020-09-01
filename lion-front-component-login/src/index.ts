@@ -2,10 +2,12 @@ import Vue from 'vue';
 import router from "./router/index";
 import store from './store/index';
 import Index from './Index.vue';
-import ant,{FormModel}  from 'ant-design-vue';
-import './assets/theme/styles/index.less';
-Vue.use(ant);
-Vue.use(FormModel);
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
+
+Vue.use(ElementUI, {
+    size: 'small'
+});
 new Vue({
     store,
     router,

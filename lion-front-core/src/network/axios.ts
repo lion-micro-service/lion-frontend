@@ -62,11 +62,8 @@ service.interceptors.response.use(
             }else{
                 message.error('未知错误！请联系管理员！');
             }
-            // @ts-ignore
-            return Promise.reject('error');
-        } else {
-            return response.data;
         }
+        return response.data;
     },
     (error: any) => {
         // 异常处理

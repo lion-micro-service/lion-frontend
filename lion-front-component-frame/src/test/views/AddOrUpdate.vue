@@ -47,7 +47,7 @@
                 <a-row >
                     <a-col :span="24" style="text-align:center;">
                         <a-form-item >
-                            <a-button type="primary" icon="save" @click="save()">保存</a-button>
+                            <a-button v-bind:disabled="saveButtonDisabled" type="primary" icon="save" @click="save()">保存</a-button>
                             <a-button v-bind:disabled="resetDisabled" type="dashed" icon="undo" @click="reset()">重置</a-button>
                             <a-button icon="rollback" @click="back()">返回</a-button>
                         </a-form-item>
@@ -66,6 +66,7 @@
     @Component({})
     export default class AddOrUpdate extends Vue{
 
+        private saveButtonDisabled:boolean = false;
         private usernameDisabled:boolean = false;
         private passDisabled:boolean = false;
         private confirmPassDisabled:boolean = false;
@@ -183,17 +184,33 @@
         private save():void{
             (this.$refs.form as any).validate((validate: boolean) => {
                 if (validate) {
-                    this.addModel.password = md5(this.addModel.pass);
-                    axios.post("/upms/user/console/add",this.addModel)
-                    .then((data) =>{
-                        if((Object(data)).message){
-                            message.success((Object(data)).message);
-                        }
-                    }).catch((fail)=>{
+                    this.saveButtonDisabled=true;
+                    const id = this.$route.query.id;
+                    if(id){
+                        this.addModel.id=id;
+                        axios.put("/upms/user/console/update",this.addModel)
+                            .then((data) =>{
+                                if((Object(data)).message){
+                                    message.success((Object(data)).message);
+                                }
+                            }).catch((fail)=>{
 
-                    }).finally(()=>{
+                        }).finally(()=>{
+                            this.saveButtonDisabled=false;
+                        })
+                    }else{
+                        this.addModel.password = md5(this.addModel.pass);
+                        axios.post("/upms/user/console/add",this.addModel)
+                            .then((data) =>{
+                                if((Object(data)).message){
+                                    message.success((Object(data)).message);
+                                }
+                            }).catch((fail)=>{
 
-                    })
+                        }).finally(()=>{
+                            this.saveButtonDisabled=false;
+                        })
+                    }
                 }
             });
         };
