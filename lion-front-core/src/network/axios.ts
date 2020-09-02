@@ -54,7 +54,16 @@ service.interceptors.response.use(
         // 移除队列中的该请求，注意这时候没有传第二个参数f
         removePending(response.config);
         // 获取返回数据，并处理。
-        if (response.data.status !== 200) {
+        if (response.data.status === 403){
+            message.error('登陆异常，请重新登陆！');
+            setTimeout(function () {
+                if (self != top) {
+                    window.top.location.href="/";
+                }else {
+                    window.location.href="/";
+                }
+            },5000);
+        }else if (response.data.status !== 200) {
             if(response.data.message){
                 message.error(response.data.message);
             }else if(response.data.exceptionMessage){

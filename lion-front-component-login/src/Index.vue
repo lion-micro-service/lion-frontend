@@ -55,6 +55,7 @@
                         axios.post("/oauth/token",formData,{})
                         .then(success => {
                             if (success.status===200){
+                                sessionStorage.setItem("toke",success.data.access_token);
                                 window.location.href="/frame";
                             }else {
                                 this.$message.error(success.message);
