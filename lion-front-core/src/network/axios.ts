@@ -42,6 +42,10 @@ service.interceptors.request.use((config: any) => {
             removePending(config, c);
         });
     }
+    const token = sessionStorage.getItem("token");
+    if (token && token !== ''){
+        config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
 }, (error: any) => {
     // @ts-ignore

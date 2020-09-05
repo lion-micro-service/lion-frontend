@@ -2,30 +2,20 @@
     <div class="reuse-tab ad-rt fixed">
         <div slot="breadcrumb">
             <a-breadcrumb>
-                <a-breadcrumb-item>
-                    <a >首页</a>
+                <a-breadcrumb-item v-for="value in $store.state.menu._currentMeun">
+                    <a >{{value}}</a>
                 </a-breadcrumb-item>
-                <a-breadcrumb-item>
-                    <a >表单页</a>
-                </a-breadcrumb-item>
-                <a-breadcrumb-item>高级表单</a-breadcrumb-item>
             </a-breadcrumb>
         </div>
     </div>
 </template>
 
 <script lang="tsx">
-import {
-    Component,
-    Prop,
-    Vue,
-    Emit,
-Watch,
-} from 'vue-property-decorator';
+import {Component, Emit, Inject, Model, Prop, Provide, Vue, Watch} from 'vue-property-decorator';
+import {MenuModule} from "@/frame/store/modules/menu";
 
 @Component({})
 export default class ReuseTab extends Vue {
-
 }
 </script>
 

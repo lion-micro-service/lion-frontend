@@ -4,7 +4,7 @@
         <Left></Left>
         <reuse-tab></reuse-tab>
         <div id="content">
-            <iframe id="contentIframe" width="100%" frameborder=”no” border=”0″ marginwidth=”0″ marginheight=”0″ scrolling=”no” allowtransparency=”yes” src="/test"></iframe>
+            <iframe ref="contentIframe" id="contentIframe" width="100%" frameborder=”no” border=”0″ marginwidth=”0″ marginheight=”0″ scrolling=”no” allowtransparency=”yes” src=""></iframe>
         </div>
         <footer-toolbar></footer-toolbar>
     </div>
