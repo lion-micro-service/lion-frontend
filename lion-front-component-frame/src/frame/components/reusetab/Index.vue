@@ -2,7 +2,7 @@
     <div class="reuse-tab ad-rt fixed">
         <div slot="breadcrumb">
             <a-breadcrumb>
-                <a-breadcrumb-item v-for="value in $store.state.menu._currentMeun">
+                <a-breadcrumb-item v-for="(value,key,index) in $store.state.menu._currentMeun" v-bind:key="value">
                     <a >{{value}}</a>
                 </a-breadcrumb-item>
             </a-breadcrumb>

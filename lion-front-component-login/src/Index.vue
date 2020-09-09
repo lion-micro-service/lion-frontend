@@ -1,120 +1,133 @@
 <template>
-    <div class="login-wrap">
-        <div class="ms-login">
-            <div class="ms-title">后台管理系统</div>
-            <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
-                <el-form-item prop="username">
-                    <el-input v-model="param.username" placeholder="username">
-                        <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
-                    </el-input>
-                </el-form-item>
-                <el-form-item prop="password">
-                    <el-input
-                            type="password"
-                            placeholder="password"
-                            v-model="param.pass"
-                            @keyup.enter.native="submitForm()"
-                    >
-                        <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
-                    </el-input>
-                </el-form-item>
-                <div class="login-btn">
-                    <el-button type="primary" @click="submitForm()">登录</el-button>
+    <div class="box">
+        <form class="login-form" method="post" id="loginForm">
+            <section class="login">
+                <div class='message-top'>
                 </div>
-            </el-form>
-        </div>
+                <div class="login-title">Lion 管理平台</div>
+                <div class="login-name login-input">
+                    <span class="login-icon iconfont icon-yonghuming" id="icon-name"></span><input
+                        id="account" autocomplete="off" name="account" class="input"
+                        type="text" placeholder="请输入账号名" />
+                </div>
+                <div class="login-password login-input">
+                    <span class="login-icon iconfont icon-mobile" id="icon-pws"></span><input
+                        autocomplete="off" class="input" id="password" name="password"
+                        type="password" placeholder="请输入密码" />
+                </div>
+                <div class="login-code login-input">
+                    <span class="login-icon iconfont icon-yanzhengma" id="icon-code"></span><input
+                        maxlength=6 autocomplete="off" class="input input-code" id="vcode"
+                        name="vcode" type="text" placeholder="请输入验证码" /> <img
+                        class="imgs-code" src="/verification/code"
+                        id="vcode-image" />
+                </div>
+                <div class="login-button" id="loginButton">登录</div>
+                <footer class="footer">
+                    <div class="copyright">
+                        Lion ©2020-2021 Created by <a href="#" onclick="window.open('https://github.com/lion-micro-service');">Mr.Liu</a>
+                    </div>
+                </footer>
+            </section>
+        </form>
     </div>
 </template>
 
 <script>
-    import md5 from 'md5';
-    import axios from "@lion/lion-front-core/src/network/axios";
+    import $ from 'jquery'
+    import './assets/login/toastr.min.css';
+    import toastr from './assets/login/toastr.min.js';
+    const img1 = require('@/assets/img/1.jpg')
+    const img2 = require('@/assets/img/2.jpg')
+    const img3 = require('@/assets/img/3.jpg')
     export default {
-        data: function() {
+        data() {
             return {
-                param: {
-                    username: '',
-                    pass: '',
-                },
-                rules: {
-                    username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-                    pass: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-                },
-            };
-        },
-        methods: {
-            submitForm() {
-                this.$refs.login.validate(valid => {
-                    if (valid) {
-                        const formData = new FormData();
-                        formData.append("password", md5(this.param.pass));
-                        formData.append("username", this.param.username);
-                        formData.append("grant_type", 'password');
-                        formData.append("client_id", 'console');
-                        formData.append("client_secret", 'console');
-                        axios.post("/oauth/token",formData,{})
-                        .then(success => {
-                            if (success.status===200){
-                                sessionStorage.setItem("token",success.data.access_token);
-                                window.location.href="/frame";
-                            }else {
-                                this.$message.error(success.message);
-                            }
-                        }).catch(fail => {
-                            this.$message.error('请求服务器失败');
-                        }).finally(()=>{
-                        });
-                    } else {
-                        this.$message.error('请输入账号和密码');
-                        return false;
-                    }
-                });
-            },
-        },
+            }
+        }
     };
+
+    $(function() {
+        toastr.options = {
+            "timeOut": "5000",
+            "positionClass": "toast-top-center"
+        }
+        //单个输入框验证
+        $(".input:not([type=checkbox])").blur(function() {
+            if (!this.value) {
+                $(this).addClass("input-error");
+            } else {
+                $(this).removeClass("input-error");
+            }
+        });
+
+        if ($.cookie("rem_name") && $.cookie("rem_pwd")) {
+            $("#account").val($.cookie("rem_name"));
+            $("#password").val($.cookie("rem_pwd"));
+            $("#rememberMe")[0].checked = true;
+        }
+        $("#loginButton").click(function() {
+
+            $(".input:not([type=checkbox])").each(function(){
+                if (!this.value) {
+                    $(this).addClass("input-error");
+                } else {
+                    $(this).removeClass("input-error");
+                }
+            });
+            if ($(".input-error").length === 0) {
+                var fd = new FormData();
+                fd.append("grant_type", "password");
+                fd.append("client_id", "console");
+                fd.append("client_secret", "console");
+                fd.append("username", $('#account').val());
+                fd.append("password", $.md5($('#password').val()));
+                $.ajax({
+                    url: process.env.VUE_APP_BASEURL+'/oauth/token',
+                    type: 'post',
+                    processData: false,
+                    contentType: false,
+                    data: fd,
+                    success: function (data) {
+                        if (data.status===200){
+                            sessionStorage.setItem("token",data.data.access_token);
+                            window.location.href="/frame";
+                        }else {
+                            toastr.error(data.message);
+                        }
+                    }
+                })
+            }
+        });
+        $.backstretch([ img1,img2,img3 ], {
+            fade : 1000,
+            duration : 8000
+        });
+        var colors = {
+            "0" : "10px 5px 70px #0d957a",
+            "1" : "10px 5px 70px #ABB3A6",
+            "2" : "10px 5px 70px #002842",
+        };
+        $(window).on("backstretch.before", function(e, instance, index) {
+
+            $(".login").css("box-shadow", colors[index]);
+        });
+
+
+
+        //刷新验证码
+        $("#vcode-image").click(function() {
+            $(this).attr("src", process.env.VUE_APP_BASEURL+"/verification/code");
+        });
+    });
 </script>
 
-<style>
 
-    .login-wrap {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background-image: url(./assets/img/login-bg.jpg);
-        background-size: 100%;
-    }
-    .ms-title {
-        width: 100%;
-        line-height: 50px;
-        text-align: center;
-        font-size: 20px;
-        color: #fff;
-        border-bottom: 1px solid #ddd;
-    }
-    .ms-login {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 350px;
-        margin: -190px 0 0 -175px;
-        border-radius: 5px;
-        background: rgba(255, 255, 255, 0.3);
-        overflow: hidden;
-    }
-    .ms-content {
-        padding: 30px 30px;
-    }
-    .login-btn {
-        text-align: center;
-    }
-    .login-btn button {
-        width: 100%;
-        height: 36px;
-        margin-bottom: 10px;
-    }
-    .login-tips {
-        font-size: 12px;
-        line-height: 30px;
-        color: #fff;
+
+
+
+<style lang="css">
+    .checkbox:checked {
+        background: url('./assets/login/imgs/gou.png');
     }
 </style>

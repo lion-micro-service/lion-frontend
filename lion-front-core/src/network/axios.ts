@@ -29,7 +29,7 @@ const removePending: any = (config: any, f: any) => {
 };
 /* 创建axios实例 */
 const service = axios.create({
-    baseURL: process.env.VUE_APP_BASEAPI,
+    baseURL: process.env.VUE_APP_BASEURL,
     timeout: 5000 // 请求超时时间
 });
 

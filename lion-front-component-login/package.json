@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "@lion/lion-front-core": "^1.0.0",
-    "element-ui": "^2.13.2",
-    "md5": "^2.3.0"
+    "jquery": "^3.5.1"
   },
   "devDependencies": {
     "@lion/lion-front-devDependencies": "^1.0.0",
