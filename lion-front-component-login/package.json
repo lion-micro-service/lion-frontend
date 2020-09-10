@@ -5,7 +5,7 @@
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve --mode dev",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode test",
     "lion-serve": "vue-cli-service lion-serve"
   },
   "dependencies": {

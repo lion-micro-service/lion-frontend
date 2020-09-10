@@ -1,6 +1,13 @@
-dnf -y install pcre-devel
+dnf -y install pcre-devel zlib-devel
 
-cd ./luajit2-2.1-20200102
+#安装不成功 改用 LuaJIT-2.1.0-beta3
+#cd ./luajit2-2.1-20200102
+#make && make install
+#export LUAJIT_LIB=/usr/local/lib
+#export LUAJIT_INC=/usr/local/include/luajit-2.1
+#make clean
+
+cd ./LuaJIT-2.1.0-beta3
 make && make install
 export LUAJIT_LIB=/usr/local/lib
 export LUAJIT_INC=/usr/local/include/luajit-2.1
@@ -15,6 +22,6 @@ cd ../nginx-1.18.0
 make && make install
 make clean
 
-cp -r ../lua-resty-redis-0.28 /usr/local/nginx
-cp -r ../lua-resty-http-0.15 /usr/local/nginx
-\cp -f ../conf/nginx.conf /usr/local/nginx/conf
+\cp -rf ../lua-resty-redis-0.28 /usr/local/nginx
+\cp -rf ../lua-resty-http-0.15 /usr/local/nginx
+\cp -ff ../conf/nginx.conf /usr/local/nginx/conf
