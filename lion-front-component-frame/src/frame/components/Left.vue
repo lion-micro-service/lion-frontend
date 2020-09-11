@@ -2,13 +2,13 @@
     <div class="aside">
         <a-menu :mode="mode" :theme="theme">
             <template v-for="value in menu">
-                <a-menu-item @click="click(value.url,[value.name])" v-if="value.type.key === 1" :key="value.code">
+                <a-menu-item @click="click(value.url,[value.name])" v-if="value.type.key === 1" :key="value.id">
                     <a-icon type="appstore" />
                     <span>{{ value.name }}</span>
                 </a-menu-item>
-                <a-sub-menu v-else-if="value.type.key === 0" :key="value.code">
+                <a-sub-menu v-else-if="value.type.key === 0" :key="value.id">
                     <span slot="title"><a-icon type="appstore" /><span>{{ value.name }}</span></span>
-                    <a-menu-item @click="click(childValue.url,[value.name,childValue.name] )" v-for="childValue in value.child" key="key()">
+                    <a-menu-item @click="click(childValue.url,[value.name,childValue.name] )" v-for="childValue in value.children" :key="childValue.id">
                         <a-icon type="appstore" /> {{childValue.name}}
                     </a-menu-item>
                 </a-sub-menu>
