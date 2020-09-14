@@ -83,7 +83,7 @@
                 fd.append("username", $('#account').val());
                 fd.append("password", $.md5($('#password').val()));
                 $.ajax({
-                    url: process.env.VUE_APP_BASEURL+'/oauth/token',
+                    url: process.env.VUE_APP_BASEURL+'/oauth/token?_t='+new Date().getTime(),
                     type: 'post',
                     processData: false,
                     contentType: false,

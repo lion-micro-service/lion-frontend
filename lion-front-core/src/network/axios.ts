@@ -35,6 +35,10 @@ const service = axios.create({
 
 /* request拦截器 */
 service.interceptors.request.use((config: any) => {
+    if (pending.length>=50){
+        pending=[];
+    }
+    config.url = config.url+(config.url.indexOf("?")>-1?"&":"?")+"_t="+new Date().getTime();
     // neverCancel 配置项，允许多个请求
     if (!config.neverCancel) {
         // 生成cancelToken
