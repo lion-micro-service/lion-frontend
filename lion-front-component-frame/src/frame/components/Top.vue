@@ -4,7 +4,6 @@
             <div class="logo">
                 <a>
                     <img class="expanded" src="@/assets/logo-full.svg" style="max-height:40px;" />
-                    <img class="collapsed" src="@/assets/logo.svg"  style="max-height:30px;" />
                 </a>
             </div>
 
