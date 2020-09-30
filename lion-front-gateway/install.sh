@@ -16,6 +16,7 @@ make clean
 rm -rf /usr/local/nginx
 cd ../nginx-1.18.0
 ./configure \
+  --with-http_gzip_static_module \
   --add-module=../ngx_devel_kit-0.3.1 \
   --add-module=../lua-nginx-module-0.10.14 \
   --with-ld-opt="-Wl,-rpath,/usr/local/lib"
