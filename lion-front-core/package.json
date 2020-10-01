@@ -1,6 +1,6 @@
 {
   "name": "@lion/lion-front-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "前端脚手架core",
   "main": "src/index.js",
   "scripts": {
@@ -16,6 +16,6 @@
     "registry": "http://127.0.0.1:8081/repository/hosted-repository-npm/"
   },
   "dependencies": {
-    "@lion/lion-front-dependencies": "^1.0.0"
+    "@lion/lion-front-dependencies": "^1.0.1"
   }
 }

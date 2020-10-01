@@ -1,15 +1,17 @@
 {
   "name": "@lion/lion-front-dependencies",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "统一版本号管理",
+  "private": false,
   "main": "index.js",
   "dependencies": {
-    "ant-design-vue": "1.6.4",
+    "ant-design-vue": "2.0.0-beta.10",
     "axios": "0.20.0",
     "core-js": "3.6.5",
-    "vue": "2.6.11",
-    "vue-router": "3.4.3",
-    "vuex": "3.5.1",
+    "vue": "3.0.0",
+    "vue-loader": "16.0.0-beta.8",
+    "vue-router": "4.0.0-beta.12",
+    "vuex": "4.0.0-beta.4",
     "vuex-class": "0.3.2"
   },
   "devDependencies": {},
