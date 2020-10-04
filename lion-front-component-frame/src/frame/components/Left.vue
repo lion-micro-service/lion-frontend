@@ -31,12 +31,37 @@
             axios.get("/upms/resources/console/front/menu").then((data)=>{
                 if (data.data.menu){
                     this.menu = data.data.menu;
+                    this.persistentAuthority(this.menu);
                 }
             }).then(error=>{
 
             }).finally(()=>{
 
             })
+        }
+
+        private persistentAuthority(resources:Array<any>):void{
+            let authority:Array<string>=[];
+            for (const value of resources) {
+                authority[authority.length] = value.code;
+                if (value.children && value.children.length>0){
+                    let authorityTemp:Array<string>=[];
+                    this.persistentAuthorityChilder(value.children,authorityTemp);
+                    for (const code of authorityTemp) {
+                        authority[authority.length] = code;
+                    }
+                }
+            }
+            sessionStorage.setItem("authority",authority.join(","));
+        }
+
+        private persistentAuthorityChilder(resources:Array<any>,authority:Array<any>):void{
+            for (const value of resources) {
+                authority[authority.length] = value.code;
+                if (value.children && value.children.length>0){
+                    this.persistentAuthorityChilder(value.children,authority);
+                }
+            }
         }
 
         private click( url:string,currentMeunTitle:Array<string>):void{
