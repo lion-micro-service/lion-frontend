@@ -19,7 +19,7 @@
                     <span class="login-icon iconfont icon-yanzhengma" id="icon-code"></span><input
                         maxlength=6 autocomplete="off" class="input input-code" id="vcode"
                         name="vcode" type="text" placeholder="请输入验证码" /> <img
-                        class="imgs-code" src="/verification/code"
+                        class="imgs-code"
                         id="vcode-image" />
                 </div>
                 <div class="login-button" id="loginButton">登录</div>
@@ -48,6 +48,7 @@
     };
 
     $(function() {
+        var verKey;
         toastr.options = {
             "timeOut": "5000",
             "positionClass": "toast-top-center"
@@ -77,6 +78,8 @@
             });
             if ($(".input-error").length === 0) {
                 var fd = new FormData();
+                fd.append("verKey", "verKey");
+                fd.append("vcode", $('#vcode').val());
                 fd.append("grant_type", "password");
                 fd.append("client_id", "console");
                 fd.append("client_secret", "console");
@@ -113,12 +116,29 @@
             $(".login").css("box-shadow", colors[index]);
         });
 
-
-
         //刷新验证码
         $("#vcode-image").click(function() {
-            $(this).attr("src", process.env.VUE_APP_BASEURL+"/verification/code");
+            captcha();
         });
+
+        function captcha() {
+            $.ajax({
+                url: process.env.VUE_APP_BASEURL+'/common/captcha/console/fresh?_t='+new Date().getTime(),
+                type: 'get',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.status===200){
+                        verKey = data.data.key;
+                        $('#vcode-image').attr('src', data.data.image);
+                    }else {
+                        toastr.error(data.message);
+                    }
+                }
+            })
+        }
+
+        captcha();
     });
 </script>
 
