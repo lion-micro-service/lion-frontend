@@ -52,6 +52,12 @@
                 </a-row>
             </a-form-model>
         </a-modal>
+
+        <a-modal destroyOnClose v-model="editHeadPortraitModal" width="800px" title="修改头像" centered @ok="updateHeadPortrait" :maskClosable="maskClosable" cancelText="关闭" okText="保存">
+            <a-upload :action="uploadAction" list-type="picture" :default-file-list="fileList" class="upload-list-inline">
+                <a-button> <a-icon type="upload" /> upload </a-button>
+            </a-upload>
+        </a-modal>
     </div>
 </template>
 
@@ -68,14 +74,17 @@
     export default class Top extends Vue {
 
         private maskClosable:boolean=false;
+        private editHeadPortraitModal:boolean=false;
+        private editHeadPortraitModel:any={};
         private editPasswordModal:boolean=false;
         private editPasswordModel:any={};
         private editPasswordModelRules:any={
             pass:[{required:true,validator:this.validatorPass, trigger:'blur'}],
             confirmPass:[{required:true,validator:this.validatorConfimPass, trigger:'blur'}],
         }
-
         private user:any={name:""};
+        private fileList:Array<any>=[];
+        private uploadAction:string=process.env.VUE_APP_BASEURL+"/common/file/console/upload"
 
         /**
          * 校验密码
@@ -127,7 +136,7 @@
             }else if (e.key==="editPassword"){
                 this.editPassword();
             }else if (e.key==="editHeadPortrait"){
-
+                this.editHeadPortrait();
             }
         }
 
@@ -140,6 +149,11 @@
             })
             .finally(()=>{
             });
+        }
+
+        private editHeadPortrait():void{
+            this.editHeadPortraitModal=true;
+            this.editHeadPortraitModel={};
         }
 
         private editPassword():void{
@@ -162,13 +176,29 @@
             });
 
         }
+
+        private updateHeadPortrait():void{
+
+        }
     }
 
 </script>
 
-<style lang="less" scoped>
+<style scoped>
     .top-nav-wrap {
         position: absolute;
         right: 50px;
+    }
+    /* tile uploaded pictures */
+    .upload-list-inline >>> .ant-upload-list-item {
+        float: left;
+        width: 200px;
+        margin-right: 8px;
+    }
+    .upload-list-inline >>> .ant-upload-animate-enter {
+        animation-name: uploadAnimateInlineIn;
+    }
+    .upload-list-inline >>> .ant-upload-animate-leave {
+        animation-name: uploadAnimateInlineOut;
     }
 </style>
