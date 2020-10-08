@@ -78,7 +78,7 @@
             });
             if ($(".input-error").length === 0) {
                 var fd = new FormData();
-                fd.append("verKey", "verKey");
+                fd.append("verKey", verKey);
                 fd.append("vcode", $('#vcode').val());
                 fd.append("grant_type", "password");
                 fd.append("client_id", "console");
