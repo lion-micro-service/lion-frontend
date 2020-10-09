@@ -13,7 +13,7 @@
                         <a-dropdown>
                             <div class="item">
                                 <div class="d-flex align-items-center px-sm">
-                                    <a-avatar src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3474094557,370758738&fm=11&gp=0.jpg" />
+                                    <a-avatar :src="headPortraitUrl" />
                                     <samp style="margin-left: 10px;">{{user.name}}</samp>
                                 </div>
                             </div>
@@ -53,10 +53,19 @@
             </a-form-model>
         </a-modal>
 
-        <a-modal destroyOnClose v-model="editHeadPortraitModal" width="800px" title="修改头像" centered @ok="updateHeadPortrait" :maskClosable="maskClosable" cancelText="关闭" okText="保存">
-            <a-upload :action="uploadAction" list-type="picture" :default-file-list="fileList" class="upload-list-inline">
-                <a-button> <a-icon type="upload" /> upload </a-button>
+        <a-modal destroyOnClose v-model="editHeadPortraitModal" width="400px" title="修改头像" centered @ok="updateHeadPortrait" :maskClosable="maskClosable" cancelText="关闭" okText="保存">
+            <a-upload :action="uploadAction" accept="image/png, image/jpeg" list-type="picture-card" :file-list="fileList" @change="(e)=>headPortraitChange(e)" :remove="function(file){headPortraitRemove(file)} " @preview="handlePreview">
+                <div v-if="fileList.length < 1">
+                    <a-icon type="plus" />
+                    <div class="ant-upload-text">
+                        上传
+                    </div>
+                </div>
             </a-upload>
+        </a-modal>
+
+        <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+            <img alt="example" style="width: 100%" :src="previewImage" />
         </a-modal>
     </div>
 </template>
@@ -66,10 +75,9 @@
     import { Component,  Vue } from 'vue-property-decorator';
     import axios from "@lion/lion-front-core/src/network/axios";
     let md5 = require('md5');
-    import { message } from 'ant-design-vue'
+    import { message,Icon } from 'ant-design-vue'
     @Component({
-        components: {
-        },
+        components: {},
     })
     export default class Top extends Vue {
 
@@ -85,7 +93,11 @@
         private user:any={name:""};
         private fileList:Array<any>=[];
         private uploadAction:string=process.env.VUE_APP_BASEURL+"/common/file/console/upload"
-
+        private headPortraitUrl:string="";
+        //头像预览窗口是否显示
+        private previewVisible:boolean=false;
+        //预览图片
+        private previewImage:any="";
         /**
          * 校验密码
          * @param rule
@@ -122,6 +134,9 @@
             axios.get("/upms/user/console/current/user/details",{params:{}})
             .then((data)=>{
                 this.user=data.data.user;
+                if (this.user.headPortraitVo && this.user.headPortraitVo.url){
+                    this.headPortraitUrl=process.env.VUE_APP_BASEURL+this.user.headPortraitVo.url;
+                }
             })
             .catch(fail => {
             })
@@ -178,7 +193,67 @@
         }
 
         private updateHeadPortrait():void{
+            let formData=new FormData();
+            formData.append('headPortrait',this.editHeadPortraitModel.headPortrait);
+            axios.put("/upms/user/console/current/user/head/portrait/update",formData)
+                .then((data)=>{
+                    if (Object(data).status === 200){
+                        message.success("修改头像成功");
+                    }
+                })
+                .catch(fail => {
+                })
+                .finally(()=>{
+                });
+        }
 
+        /**
+         * 上传头像回调事件
+         */
+        private headPortraitChange( obj:any):void{
+            this.fileList = obj.fileList;
+            if (obj.file.status === 'done'){
+                const response:any = eval('('+obj.file.xhr.response+')');
+                this.editHeadPortraitModel.headPortrait=response.data.files[0].id;
+                this.headPortraitUrl=process.env.VUE_APP_BASEURL+response.data.files[0].url;
+            }
+        }
+
+        /**
+         * 头像删除事件
+         */
+        private headPortraitRemove(file:any):boolean{
+            delete this.editHeadPortraitModel.headPortrait;
+            return true;
+        }
+
+        /**
+         * 显示预览窗口
+         */
+        async handlePreview(file:any){
+            if (!file.url && !file.preview) {
+                file.preview = await this.getBase64(file.originFileObj);
+            }
+            this.previewImage = file.url || file.preview;
+            this.previewVisible = true;
+        }
+        /**
+         * 获取图片base64编码
+         */
+        private getBase64(file:any) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        /**
+         * 取消预览
+         */
+        private handleCancel():void {
+            this.previewVisible = false;
         }
     }
 
