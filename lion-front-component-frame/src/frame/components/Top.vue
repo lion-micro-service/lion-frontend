@@ -133,7 +133,7 @@
         private mounted():void{
             axios.get("/upms/user/console/current/user/details",{params:{}})
             .then((data)=>{
-                this.user=data.data.user;
+                this.user=data.data;
                 if (this.user.headPortraitVo && this.user.headPortraitVo.url){
                     this.headPortraitUrl=process.env.VUE_APP_BASEURL+this.user.headPortraitVo.url;
                 }

@@ -31,9 +31,9 @@
 
         private mounted():void{
             axios.get("/upms/resources/console/front/menu").then((data)=>{
-                if (data.data.menu){
-                    this.persistentAuthority(data.data.menu);
-                    this.menu = data.data.menu;
+                if (data.data){
+                    this.persistentAuthority(data.data);
+                    this.menu = data.data;
                     this.$nextTick(function(){
                         let id:string |null = this.defaultSelectedKey[0];
                         let obj:any = document.getElementById(id);
