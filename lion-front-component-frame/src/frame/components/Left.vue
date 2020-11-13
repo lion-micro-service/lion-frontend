@@ -83,7 +83,7 @@
             if (url && url !== ''){
                 MenuModule.setCurrentMeun(currentMeunTitle);
                 url = url+(url.indexOf("?")>-1?"&":"?")+"_t="+new Date().getTime();
-                Object(document.getElementById("contentIframe")).src = location.host+url;
+                Object(document.getElementById("contentIframe")).src = url;
             }
         }
     }
