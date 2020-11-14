@@ -25,7 +25,7 @@
                 <div class="login-button" id="loginButton">登录</div>
                 <footer class="footer">
                     <div class="copyright">
-                        Lion ©2020-2021 Created by <a href="#" onclick="window.open('https://github.com/lion-micro-service');">Mr.Liu</a>
+                        Lion ©2020-2020 Created by <a href="#" onclick="window.open('https://github.com/lion-micro-service');">Mr.Liu</a>
                     </div>
                 </footer>
             </section>
