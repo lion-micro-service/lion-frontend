@@ -214,8 +214,8 @@
             this.fileList = obj.fileList;
             if (obj.file.status === 'done'){
                 const response:any = eval('('+obj.file.xhr.response+')');
-                this.editHeadPortraitModel.headPortrait=response.data.files[0].id;
-                this.headPortraitUrl=process.env.VUE_APP_BASEURL+response.data.files[0].url;
+                this.editHeadPortraitModel.headPortrait=response.data[0].id;
+                this.headPortraitUrl=process.env.VUE_APP_BASEURL+response.data[0].url;
             }
         }
 
