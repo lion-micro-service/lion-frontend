@@ -1,4 +1,9 @@
 dnf -y install pcre-devel zlib-devel openssl openssl-devel
+#yum install -y yum-utils
+#yum-config-manager --add-repo https://openresty.org/package/rhel/openresty.repo
+#yum install -y openresty
+#export LUAJIT_LIB=/usr/local/openresty/luajit/lib
+#export LUAJIT_INC=/usr/local/openresty/luajit/include/luajit-2.1
 
 #安装不成功 改用 LuaJIT-2.1.0-beta3
 #cd ./luajit2-2.1-20200102
@@ -7,10 +12,17 @@ dnf -y install pcre-devel zlib-devel openssl openssl-devel
 #export LUAJIT_INC=/usr/local/include/luajit-2.1
 #make clean
 
-cd ./LuaJIT-2.1.0-beta3
+#出现过安装不成功的情况改用openresty
+#cd ./LuaJIT-2.1.0-beta3
+#make && make install
+#export LUAJIT_LIB=/usr/local/lib
+#export LUAJIT_INC=/usr/local/include/luajit-2.1
+#make clean
+
+cd ./LuaJIT-2.0.5
 make && make install
 export LUAJIT_LIB=/usr/local/lib
-export LUAJIT_INC=/usr/local/include/luajit-2.1
+export LUAJIT_INC=/usr/local/include/luajit-2.0
 make clean
 
 rm -rf /usr/local/nginx
