@@ -92,7 +92,7 @@
         }
         private user:any={name:""};
         private fileList:Array<any>=[];
-        private uploadAction:string=process.env.VUE_APP_BASEURL+"/common/file/console/upload"
+        private uploadAction:string=process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+"/lion-common-console-restful/file/console/upload"
         private headPortraitUrl:string="";
         //头像预览窗口是否显示
         private previewVisible:boolean=false;
@@ -131,11 +131,11 @@
         }
 
         private mounted():void{
-            axios.get("/upms/user/console/current/user/details",{params:{}})
+            axios.get("/lion-upms-console-restful/user/console/current/user/details",{params:{}})
             .then((data)=>{
                 this.user=data.data;
                 if (this.user.headPortraitVo && this.user.headPortraitVo.url){
-                    this.headPortraitUrl=process.env.VUE_APP_BASEURL+this.user.headPortraitVo.url;
+                    this.headPortraitUrl=process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+this.user.headPortraitVo.url;
                 }
             })
             .catch(fail => {
@@ -179,7 +179,7 @@
         private updatePassword():void{
             let formData=new FormData();
             formData.append('password',md5(this.editPasswordModel.pass));
-            axios.put("/upms/user/console/current/user/passwod/update",formData)
+            axios.put("/lion-upms-console-restful/user/console/current/user/passwod/update",formData)
             .then((data)=>{
                 if (Object(data).status === 200){
                     message.success("修改密码成功");
@@ -195,7 +195,7 @@
         private updateHeadPortrait():void{
             let formData=new FormData();
             formData.append('headPortrait',this.editHeadPortraitModel.headPortrait);
-            axios.put("/upms/user/console/current/user/head/portrait/update",formData)
+            axios.put("/lion-upms-console-restful/user/console/current/user/head/portrait/update",formData)
                 .then((data)=>{
                     if (Object(data).status === 200){
                         message.success("修改头像成功");
@@ -215,7 +215,7 @@
             if (obj.file.status === 'done'){
                 const response:any = eval('('+obj.file.xhr.response+')');
                 this.editHeadPortraitModel.headPortrait=response.data[0].id;
-                this.headPortraitUrl=process.env.VUE_APP_BASEURL+response.data[0].url;
+                this.headPortraitUrl=process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+response.data[0].url;
             }
         }
 

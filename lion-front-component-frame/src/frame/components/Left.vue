@@ -30,7 +30,7 @@
         private menu:Array<any> =[];
 
         private mounted():void{
-            axios.get("/upms/resources/console/front/menu").then((data)=>{
+            axios.get("/lion-upms-console-restful/resources/console/front/menu").then((data)=>{
                 if (data.data){
                     this.persistentAuthority(data.data);
                     this.menu = data.data;

@@ -86,7 +86,7 @@
                 fd.append("username", $('#account').val());
                 fd.append("password", $.md5($('#password').val()));
                 $.ajax({
-                    url: process.env.VUE_APP_BASEURL+'/oauth/token?_t='+new Date().getTime(),
+                    url: process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+'/lion-oauth2-authorization-server/oauth/token?_t='+new Date().getTime(),
                     type: 'post',
                     processData: false,
                     contentType: false,
@@ -123,7 +123,7 @@
 
         function captcha() {
             $.ajax({
-                url: process.env.VUE_APP_BASEURL+'/common/captcha/console/fresh?_t='+new Date().getTime(),
+                url: process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+'/lion-common-console-restful/captcha/console/fresh?_t='+new Date().getTime(),
                 type: 'get',
                 processData: false,
                 contentType: false,
