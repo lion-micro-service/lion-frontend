@@ -135,7 +135,7 @@
             .then((data)=>{
                 this.user=data.data;
                 if (this.user.headPortraitVo && this.user.headPortraitVo.url){
-                    this.headPortraitUrl=process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+this.user.headPortraitVo.url;
+                    this.headPortraitUrl=process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+this.user.headPortraitUrl;
                 }
             })
             .catch(fail => {
