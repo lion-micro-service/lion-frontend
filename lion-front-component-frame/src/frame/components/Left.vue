@@ -3,14 +3,21 @@
         <a-menu :mode="mode" :theme="theme"  :open-keys.sync="openKeys">
             <template v-for="value in menu">
                 <a-menu-item @click="click(value.url,[value.name])" v-if="value.type.key === 1" :key="value.id">
-                    <a-icon type="appstore" />
                     <span>{{ value.name }}</span>
                 </a-menu-item>
                 <a-sub-menu v-else-if="value.type.key === 0" :key="value.id">
-                    <span slot="title"><a-icon type="appstore" /><span>{{ value.name }}</span></span>
-                    <a-menu-item :id="childValue.id"  @click="click(childValue.url,[value.name,childValue.name] )" v-for="childValue in value.children" :key="childValue.id">
-                        <a-icon type="appstore" /> {{childValue.name}}
-                    </a-menu-item>
+                    <span slot="title"><span>{{ value.name }}</span></span>
+                    <template v-for="childValue in value.children">
+                        <a-menu-item v-if="childValue.type.key === 1" :id="childValue.id"  @click="click(childValue.url,[value.name,childValue.name] )"  :key="childValue.id">
+                            <a-icon type="appstore" /> {{childValue.name}}
+                        </a-menu-item>
+                        <a-sub-menu v-else-if="childValue.type.key === 0" :key="childValue.id">
+                            <span slot="title"><span>{{ childValue.name }}</span></span>
+                            <a-menu-item v-if="childValue.type.key === 1" :id="childValue.id"  @click="click(childValue.url,[value.name,childValue.name] )" v-for="childValue in childValue.children"  :key="childValue.id">
+                                <a-icon type="appstore" /> {{childValue.name}}
+                            </a-menu-item>
+                        </a-sub-menu>
+                    </template>
                 </a-sub-menu>
             </template>
         </a-menu>
@@ -30,7 +37,7 @@
         private menu:Array<any> =[];
 
         private mounted():void{
-            axios.get("/lion-upms-console-restful/resources/console/front/menu").then((data)=>{
+            axios.get("/lion-upms-console-restful/resources/console/menu").then((data)=>{
                 if (data.data){
                     this.persistentAuthority(data.data);
                     this.menu = data.data;
@@ -53,7 +60,7 @@
             let authority:Array<string>=[];
             for (const value of resources) {
                 if (this.openKeys.length==0){
-                    this.openKeys[0]=value.id;
+                    this.openKeys[0] = value.id;
                 }
                 authority[authority.length] = value.code;
                 if (value.children && value.children.length>0){
@@ -70,7 +77,12 @@
         private persistentAuthorityChilder(resources:Array<any>,authority:Array<any>):void{
             for (const value of resources) {
                 if (this.defaultSelectedKey.length==0){
-                    this.defaultSelectedKey[0]=value.id;
+                    if (value.url) {
+                        this.defaultSelectedKey[0] = value.id;
+                    }
+                }
+                if (value.children && value.children.length>0){
+                    this.openKeys[this.openKeys.length] = value.id;
                 }
                 authority[authority.length] = value.code;
                 if (value.children && value.children.length>0){
