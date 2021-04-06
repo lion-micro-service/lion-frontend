@@ -15,13 +15,13 @@
                         autocomplete="off" class="input" id="password" name="password"
                         type="password" placeholder="请输入密码" />
                 </div>
-                <div class="login-code login-input">
-                    <span class="login-icon iconfont icon-yanzhengma" id="icon-code"></span><input
-                        maxlength=6 autocomplete="off" class="input input-code" id="vcode"
-                        name="vcode" type="text" placeholder="请输入验证码" /> <img
-                        class="imgs-code"
-                        id="vcode-image" />
-                </div>
+<!--                <div class="login-code login-input">-->
+<!--                    <span class="login-icon iconfont icon-yanzhengma" id="icon-code"></span><input-->
+<!--                        maxlength=6 autocomplete="off" class="input input-code" id="vcode"-->
+<!--                        name="vcode" type="text" placeholder="请输入验证码" /> <img-->
+<!--                        class="imgs-code"-->
+<!--                        id="vcode-image" />-->
+<!--                </div>-->
                 <div class="login-button" id="loginButton">登录</div>
                 <footer class="footer">
                     <div class="copyright">
@@ -78,8 +78,8 @@
             });
             if ($(".input-error").length === 0) {
                 var fd = new FormData();
-                fd.append("verKey", verKey);
-                fd.append("vcode", $('#vcode').val());
+                // fd.append("verKey", verKey);
+                // fd.append("vcode", $('#vcode').val());
                 fd.append("grant_type", "password");
                 fd.append("client_id", "console");
                 fd.append("client_secret", "console");

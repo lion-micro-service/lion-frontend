@@ -9,12 +9,12 @@
                     <span slot="title"><span>{{ value.name }}</span></span>
                     <template v-for="childValue in value.children">
                         <a-menu-item v-if="childValue.type.key === 1" :id="childValue.id"  @click="click(childValue.url,[value.name,childValue.name] )"  :key="childValue.id">
-                            <a-icon type="appstore" /> {{childValue.name}}
+<!--                            <a-icon type="appstore" />--> {{childValue.name}}
                         </a-menu-item>
                         <a-sub-menu v-else-if="childValue.type.key === 0" :key="childValue.id">
                             <span slot="title"><span>{{ childValue.name }}</span></span>
-                            <a-menu-item v-if="childValue.type.key === 1" :id="childValue.id"  @click="click(childValue.url,[value.name,childValue.name] )" v-for="childValue in childValue.children"  :key="childValue.id">
-                                <a-icon type="appstore" /> {{childValue.name}}
+                            <a-menu-item v-if="childChildValue.type.key === 1" :id="childChildValue.id"  @click="click(childChildValue.url,[value.name,childValue.name,childChildValue.name] )" v-for="childChildValue in childValue.children"  :key="childChildValue.id">
+<!--                                <a-icon type="appstore" />--> {{childChildValue.name}}
                             </a-menu-item>
                         </a-sub-menu>
                     </template>
@@ -81,7 +81,7 @@
                         this.defaultSelectedKey[0] = value.id;
                     }
                 }
-                if (value.children && value.children.length>0){
+                if (this.defaultSelectedKey.length==0 && value.children && value.children.length>0){
                     this.openKeys[this.openKeys.length] = value.id;
                 }
                 authority[authority.length] = value.code;
