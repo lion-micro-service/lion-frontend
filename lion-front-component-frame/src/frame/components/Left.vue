@@ -1,5 +1,5 @@
 <template>
-    <div class="aside">
+    <div class="aside" style="overflow-x:auto;overflow-y:auto">
         <a-menu :mode="mode" :theme="theme"  :open-keys.sync="openKeys">
             <template v-for="value in menu">
                 <a-menu-item @click="click(value.url,[value.name])" v-if="value.type.key === 1" :key="value.id">
