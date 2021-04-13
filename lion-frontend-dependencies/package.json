@@ -1,0 +1,24 @@
+{
+  "name": "@lion/lion-frontend-dependencies",
+  "version": "1.0.0",
+  "description": "统一版本号管理",
+  "main": "index.js",
+  "dependencies": {
+    "ant-design-vue": "1.6.4",
+    "axios": "0.20.0",
+    "core-js": "3.6.5",
+    "vue": "2.6.11",
+    "vue-router": "3.4.3",
+    "vuex": "3.5.1",
+    "vuex-class": "0.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "registry": "http://127.0.0.1:9999/repository/hosted-repository-npm/"
+  },
+  "author": "Mr.Liu",
+  "license": "ISC"
+}
