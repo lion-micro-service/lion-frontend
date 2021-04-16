@@ -73,7 +73,7 @@
 <script lang="ts">
 
     import { Component,  Vue } from 'vue-property-decorator';
-    import axios from "@lion/lion-front-core/src/network/axios";
+    import axios from "@lion/lion-frontend-core/src/network/axios";
     let md5 = require('md5');
     import { message,Icon } from 'ant-design-vue'
     @Component({
@@ -156,7 +156,7 @@
         }
 
         private logout():void{
-            axios.get("/logout",{params:{}})
+            axios.get("/lion-oauth2-authorization-server/logout",{params:{}})
             .then((data)=>{
                 window.location.href="/";
             })

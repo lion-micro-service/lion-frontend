@@ -25,7 +25,7 @@
 </template>
 <script lang="ts">
     import {Component, Emit, Inject, Model, Prop, Provide, Vue, Watch} from 'vue-property-decorator';
-    import axios from "@lion/lion-front-core/src/network/axios";
+    import axios from "@lion/lion-frontend-core/src/network/axios";
     import {MenuModule} from "@/frame/store/modules/menu";
     @Component({})
     export default class Left extends Vue{
