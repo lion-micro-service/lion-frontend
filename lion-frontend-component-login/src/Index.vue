@@ -1,5 +1,9 @@
 <template>
     <div class="box">
+        <div id="loading" hidden class="loading">
+            <span></span>
+        </div>
+
         <form class="login-form" method="post" id="loginForm">
             <section class="login">
                 <div class='message-top'>
@@ -48,6 +52,7 @@
     };
 
     $(function() {
+
         var verKey;
         toastr.options = {
             "timeOut": "5000",
@@ -68,7 +73,7 @@
             $("#rememberMe")[0].checked = true;
         }
         $("#loginButton").click(function() {
-
+            $("#loading").attr("hidden",false);
             $(".input:not([type=checkbox])").each(function(){
                 if (!this.value) {
                     $(this).addClass("input-error");
@@ -98,6 +103,7 @@
                         }else {
                             toastr.error(data.message);
                         }
+                        $("#loading").attr("hidden",true);
                     }
                 })
             }
@@ -149,5 +155,34 @@
 <style lang="css">
     .checkbox:checked {
         background: url('./assets/login/imgs/gou.png');
+    }
+    .loading{
+        width: 150px;
+        height: 8px;
+        border-radius: 4px;
+        margin: 0 auto;
+        margin-top:100px;
+        position: relative;
+        background: lightblue;
+        overflow: hidden;
+    }
+    .loading span{
+        display:block;
+        width: 100%;
+        height: 100%;
+        border-radius: 3px;
+        background: lightgreen;
+        -webkit-animation: changePosition 4s linear infinite;
+    }
+    @-webkit-keyframes changePosition{
+        0%{
+            -webkit-transform: translate(-150px);
+        }
+        50%{
+            -webkit-transform: translate(0);
+        }
+        100%{
+            -webkit-transform: translate(150px);
+        }
     }
 </style>

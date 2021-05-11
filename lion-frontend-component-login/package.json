@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --mode dev",
     "build": "vue-cli-service build --mode test",
-    "lion-serve": "vue-cli-service lion-serve"
+    "lion-serve": "vue-cli-service lion-serve --mode dev"
   },
   "dependencies": {
     "@lion/lion-frontend-core": "^1.0.0",
