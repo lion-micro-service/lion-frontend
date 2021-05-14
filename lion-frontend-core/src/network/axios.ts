@@ -76,8 +76,6 @@ service.interceptors.response.use(
                 message.error(response.data.message);
             }else if(response.data.exceptionMessage){
                 message.error(response.data.exceptionMessage);
-            }else{
-                message.error('未知错误！请联系管理员！');
             }
         }
         return response.data;
