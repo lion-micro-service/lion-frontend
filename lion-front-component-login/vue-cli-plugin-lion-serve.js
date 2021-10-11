@@ -12,7 +12,6 @@ const defaults = {
     https: false
 }
 const request = require("request");
-let isRegisterGateway = false;
 module.exports = (api, options) => {
     api.registerCommand('lion-serve', {
         description: 'start development lion-serve',
@@ -266,11 +265,8 @@ module.exports = (api, options) => {
                 if (!isInContainer) {
                     console.log(`  - Network: ${chalk.cyan(networkUrl)}`)
                     //注册服务到nginx网关
-                    if (!isRegisterGateway){
-                        setInterval(registerGateway, 1000);
-                        isRegisterGateway = true;
-                    }
-                    console.log(`  - lion-serve: 微前端开始注册！`)
+                    setInterval(registerGateway, 1000);
+                    console.log(`  - lion-serve: 微前端注册成功！`)
                 } else {
                     console.log()
                     console.log(chalk.yellow(`  It seems you are running Vue CLI inside a container.`))

@@ -13,7 +13,8 @@
 
 <script lang="ts">
 
-    import {Vue,Component,Prop,Emit,PropSync,Provide,Model,Watch,Inject} from 'vue-property-decorator';
+    import { Component, Prop, Vue } from 'vue-property-decorator';
+    import { State, Mutation, namespace } from 'vuex-class';
 
     @Component({
         components: {
