@@ -124,7 +124,7 @@ Host: 127.0.0.1:8080
             local http = require "resty.http"
             local httpc = http.new()
 
-            local res, err = httpc:request_uri("https://127.0.0.1:8081", { ssl_verify = false })
+            local res, err = httpc:request_uri("https://127.0.0.1:9999", { ssl_verify = false })
         ';
     }
 --- user_files eval
@@ -137,7 +137,7 @@ GET /lua
 --- no_error_log
 [error]
 --- error_log
-Host: 127.0.0.1:8081
+Host: 127.0.0.1:9999
 
 
 === TEST 5: No host header on a unix domain socket returns a useful error.
@@ -188,7 +188,7 @@ Unable to generate a useful Host header for a unix domain socket. Please provide
             httpc:set_proxy_options({
                 http_proxy = "http://127.0.0.1:8080"
             })
-            local res, err = httpc:request_uri("http://127.0.0.1:8081")
+            local res, err = httpc:request_uri("http://127.0.0.1:9999")
         ';
     }
 --- request
@@ -196,4 +196,4 @@ GET /lua
 --- no_error_log
 [error]
 --- error_log
-Host: 127.0.0.1:8081
+Host: 127.0.0.1:9999
