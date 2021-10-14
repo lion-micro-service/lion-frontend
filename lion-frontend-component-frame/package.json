@@ -1,5 +1,5 @@
 {
-  "name": "@lion/lion-front-component-frame",
+  "name": "@lion/lion-frontend-component-frame",
   "version": "1.1.0",
   "description": "前端脚手架",
   "private": false,
@@ -9,19 +9,19 @@
     "lion-serve": "vue-cli-service lion-serve --mode test"
   },
   "dependencies": {
-    "@lion/lion-front-core": "^1.1.0",
+    "@lion/lion-frontend-core": "^1.1.0",
     "md5": "^2.3.0"
   },
   "devDependencies": {
-    "@lion/lion-front-devDependencies": "^1.1.0",
-    "@vue/cli-plugin-typescript": "^4.5.13"
+    "@lion/lion-frontend-devDependencies": "^1.1.0",
+    "@vue/cli-plugin-typescript": "^4.5.4"
   },
   "publishConfig": {
     "registry": "http://127.0.0.1:9999/repository/hosted-repository-npm/"
   },
   "vuePlugins": {
     "service": [
-      "./vue-cli-plugin-lion-serve"
+      "./node_modules/@lion/lion-frontend-core/src/plugins/vue-cli-plugin-lion-serve.js"
     ]
   }
 }

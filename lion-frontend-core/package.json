@@ -1,5 +1,5 @@
 {
-  "name": "@lion/lion-front-core",
+  "name": "@lion/lion-frontend-core",
   "version": "1.1.0",
   "description": "前端脚手架core",
   "main": "src/index.js",
@@ -9,13 +9,13 @@
   "author": "Mr.Liu",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^16.10.3",
-    "glob": "~7.2.0"
+    "@types/node": "^14.6.0",
+    "glob": "~7.1.6"
   },
   "publishConfig": {
     "registry": "http://127.0.0.1:9999/repository/hosted-repository-npm/"
   },
   "dependencies": {
-    "@lion/lion-front-dependencies": "^1.1.0"
+    "@lion/lion-frontend-dependencies": "^1.1.0"
   }
 }

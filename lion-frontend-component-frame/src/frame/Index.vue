@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-    import {Vue,Prop,PropSync,Model,Watch,Provide,Inject,ProvideReactive,InjectReactive,Emit,Ref,Component} from 'vue-property-decorator';
+    import {Vue,Component,Prop,Emit} from 'vue-property-decorator';
     import Top from "@/frame/components/Top.vue";
     import Left from "@/frame/components/Left.vue"
     import FooterToolbar from '@/frame/components/footertoolbar/Index.vue'
