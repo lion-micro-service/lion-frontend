@@ -72,13 +72,11 @@
 
 <script lang="ts">
 
-    import { Component,  Vue } from 'vue-property-decorator';
+    import { Options,  Vue } from 'vue-property-decorator';
     import axios from "@lion/lion-frontend-core/src/network/axios";
     let md5 = require('md5');
-    import { message,Icon } from 'ant-design-vue'
-    @Component({
-        components: {},
-    })
+    import { message } from 'ant-design-vue'
+    @Options({})
     export default class Top extends Vue {
 
         private maskClosable:boolean=false;
@@ -130,7 +128,7 @@
             callback();
         }
 
-        private mounted():void{
+      public mounted():void{
             axios.get("/lion-upms-console-restful/user/console/current/user/details",{params:{}})
             .then((data)=>{
                 this.user=data.data;

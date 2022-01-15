@@ -7,9 +7,9 @@
 </template>
 
 <script lang="ts">
-    import {Vue,Component} from 'vue-property-decorator';
-    @Component({
-        components:{}
+    import {Vue,Options} from 'vue-property-decorator';
+    @Options({
+      components:{}
     })
     export default class Index extends Vue{
 
@@ -28,7 +28,7 @@
             return (zero + num).slice(-digit);
         }
 
-        private mounted():void{
+        public mounted():void{
             setInterval(this.updateTime, 1000);
         }
 

@@ -11,10 +11,10 @@
 </template>
 
 <script lang="tsx">
-import {Component, Emit, Inject, Model, Prop, Provide, Vue, Watch} from 'vue-property-decorator';
+import {Options, Emit, Inject, Model, Prop, Provide, Vue, Watch} from 'vue-property-decorator';
 import {MenuModule} from "@/frame/store/modules/menu";
 
-@Component({})
+@Options({})
 export default class ReuseTab extends Vue {
 }
 </script>

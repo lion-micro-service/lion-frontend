@@ -24,10 +24,10 @@
     </div>
 </template>
 <script lang="ts">
-    import {Component, Emit, Inject, Model, Prop, Provide, Vue, Watch} from 'vue-property-decorator';
+    import {Options, Vue} from 'vue-property-decorator';
     import axios from "@lion/lion-frontend-core/src/network/axios";
     import {MenuModule} from "@/frame/store/modules/menu";
-    @Component({})
+    @Options({})
     export default class Left extends Vue{
         private mode:string = "inline";
         private theme:string = "light";
@@ -36,7 +36,7 @@
 
         private menu:Array<any> =[];
 
-        private mounted():void{
+        public mounted():void{
             axios.get("/lion-upms-console-restful/resources/console/menu").then((data)=>{
                 if (data.data){
                     this.persistentAuthority(data.data);

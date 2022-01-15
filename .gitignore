@@ -1,9 +1,6 @@
-/node_modules
-/dist
+node_modules/
+dist/
 
-# local env files
-.env.local
-.env.*.local
 
 # Log files
 npm-debug.log*
@@ -63,3 +60,5 @@ target
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/lion-frontend-component-frame/dist/
+/lion-frontend-component-login/dist/

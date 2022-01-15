@@ -11,13 +11,13 @@
 </template>
 
 <script lang="ts">
-    import {Vue,Component,Prop,Emit} from 'vue-property-decorator';
+    import {Vue,Options,Prop,Emit} from 'vue-property-decorator';
     import Top from "@/frame/components/Top.vue";
     import Left from "@/frame/components/Left.vue"
     import FooterToolbar from '@/frame/components/footertoolbar/Index.vue'
     import ReuseTab from '@/frame/components/reusetab/Index.vue'
-    @Component({
-        components:{Top,Left,FooterToolbar,ReuseTab}
+    @Options({
+      components:{Top,Left,FooterToolbar,ReuseTab}
     })
     export default class Index extends Vue{
 
