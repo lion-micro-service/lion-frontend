@@ -13,27 +13,7 @@ module.exports = {
                 $:"jquery",
                 jQuery:"jquery",
                 "windows.jQuery":"jquery"
-            }),
-            // new CompressionPlugin({
-            //     // filename: '[path].gz[query]',
-            //     // //压缩算法
-            //     // algorithm: 'gzip',
-            //     // //匹配文件
-            //     // test: /\.js$|\.css$|\.html$|\.less$/,
-            //     // //压缩超过此大小的文件,以字节为单位
-            //     // threshold: 10240,
-            //     // minRatio: 0.8,
-            //     // //删除原始文件只保留压缩后的文件
-            //     // deleteOriginalAssets: false
-            //
-            //     filename: "[path].br[query]",
-            //     algorithm: "brotliCompress",
-            //     test: /\.(js|css|html|svg|less|jpg|bmp|png|tif|gif|pcx|tga|exif|fpx|svg|psd|cdr|pcd|dxf|ufo|eps|ai|raw|WMF|webp|avif|apng)$/,
-            //     compressionOptions: { level: 11 },
-            //     threshold: 10240,
-            //     minRatio: 0.8,
-            //     deleteOriginalAssets: false
-            // })
+            })
         ],
         output: {
             filename: `js/[name].[hash].js`,
@@ -49,5 +29,14 @@ module.exports = {
                 }
             }
         }
+    },
+    chainWebpack: (config) => {
+        config.plugin('compressionPlugin').use(new CompressionPlugin({
+            test: /\.(js|css|html|svg|less|jpg|bmp|png|tif|gif|pcx|tga|exif|fpx|svg|psd|cdr|pcd|dxf|ufo|eps|ai|raw|WMF|webp|avif|apng)$/, // 匹配文件名
+            threshold: 10240, // 对超过10k的数据压缩
+            minRatio: 0.8,
+            deleteOriginalAssets: false // 删除源文件
+        }));
+        config.plugin("terserPlugin").use((new TerserPlugin()));
     }
 }

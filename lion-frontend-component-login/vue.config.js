@@ -32,7 +32,7 @@ module.exports = {
     },
     chainWebpack: (config) => {
         config.plugin('compressionPlugin').use(new CompressionPlugin({
-            test: /\.(js|css|less)$/, // 匹配文件名
+            test: /\.(js|css|html|svg|less|jpg|bmp|png|tif|gif|pcx|tga|exif|fpx|svg|psd|cdr|pcd|dxf|ufo|eps|ai|raw|WMF|webp|avif|apng)$/, // 匹配文件名
             threshold: 10240, // 对超过10k的数据压缩
             minRatio: 0.8,
             deleteOriginalAssets: false // 删除源文件
