@@ -26,7 +26,7 @@
             class="imgs-code"
             id="vcode-image" />
         </div>
-        <div class="login-button" id="loginButton">登录</div>
+        <div class="login-button" id="loginButton">登录2</div>
         <footer class="footer">
           <div class="copyright">
             Lion ©2020-2021 Created by <a href="#" onclick="window.open('https://github.com/lion-micro-service');">Mr.Liu</a>

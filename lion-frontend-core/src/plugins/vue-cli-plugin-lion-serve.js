@@ -1,5 +1,6 @@
 const {
     info,
+    error,
     hasProjectYarn,
     hasProjectPnpm,
     openBrowser,
@@ -15,11 +16,11 @@ const request = require("request");
 let isRegisterGateway = false;
 module.exports = (api, options) => {
     api.registerCommand('lion-serve', {
-        description: 'start development lion-serve',
-        usage: 'vue-cli-service lion-serve [options] [entry]',
+        description: 'start development server',
+        usage: 'vue-cli-service serve [options] [entry]',
         options: {
-            '--open': `open browser on lion-serve start`,
-            '--copy': `copy url to clipboard on lion-serve start`,
+            '--open': `open browser on server start`,
+            '--copy': `copy url to clipboard on server start`,
             '--stdin': `close when stdin ends`,
             '--mode': `specify env mode (default: development)`,
             '--host': `specify host (default: ${defaults.host})`,
@@ -51,7 +52,7 @@ module.exports = (api, options) => {
         api.chainWebpack(webpackConfig => {
             if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
                 webpackConfig
-                    .devtool('cheap-module-eval-source-map')
+                    .devtool('eval-cheap-module-source-map')
 
                 webpackConfig
                     .plugin('hmr')
@@ -86,7 +87,7 @@ module.exports = (api, options) => {
 
         // expose advanced stats
         if (args.dashboard) {
-            const DashboardPlugin = require('@vue/cli-service/lib/webpack/DashboardPlugin')
+            const DashboardPlugin = require('../webpack/DashboardPlugin')
             ;(webpackConfig.plugins = webpackConfig.plugins || []).push(new DashboardPlugin({
                 type: 'serve'
             }))
@@ -128,9 +129,10 @@ module.exports = (api, options) => {
 
         // inject dev & hot-reload middleware entries
         if (!isProduction) {
+            const sockPath = projectDevServerOptions.sockPath || '/sockjs-node'
             const sockjsUrl = publicUrl
                 // explicitly configured via devServer.public
-                ? `?${publicUrl}/sockjs-node`
+                ? `?${publicUrl}&sockPath=${sockPath}`
                 : isInContainer
                     // can't infer public network url if inside a container...
                     // use client-side inference (note this would break with non-root publicPath)
@@ -139,9 +141,8 @@ module.exports = (api, options) => {
                     : `?` + url.format({
                     protocol,
                     port,
-                    hostname: urls.lanUrlForConfig || 'localhost',
-                    pathname: '/sockjs-node'
-                })
+                    hostname: urls.lanUrlForConfig || 'localhost'
+                }) + `&sockPath=${sockPath}`
             const devClients = [
                 // dev server client
                 require.resolve(`webpack-dev-server/client`) + sockjsUrl,
@@ -162,6 +163,21 @@ module.exports = (api, options) => {
         // create compiler
         const compiler = webpack(webpackConfig)
 
+        // handle compiler error
+        compiler.hooks.failed.tap('vue-cli-service serve', msg => {
+            error(msg)
+            process.exit(1)
+        })
+
+        const registerGateway = function registerGateway() {
+            request('http://'+args.gateway_host+':'+args.gateway_port+'/register/gateway?port='+port, function (error, response, body) {
+                if (error) {
+                    console.log(error);
+                }else {
+                    console.log(response);
+                }
+            });
+        }
         // create server
         const server = new WebpackDevServer(compiler, Object.assign({
                 logLevel: 'silent',
@@ -230,18 +246,10 @@ module.exports = (api, options) => {
             })
         }
 
-        function registerGateway() {
-            request('http://'+args.gateway_host+':'+args.gateway_port+'/register/gateway?port='+port, function (error, response, body) {
-                if (error) {
-                    console.log(error);
-                }
-            });
-        }
-
         return new Promise((resolve, reject) => {
             // log instructions & open browser on first compilation complete
             let isFirstCompile = true
-            compiler.hooks.done.tap('vue-cli-service lion-serve', stats => {
+            compiler.hooks.done.tap('vue-cli-service serve', stats => {
                 if (stats.hasErrors()) {
                     return
                 }
@@ -353,10 +361,13 @@ function addDevClientToEntry (config, devClient) {
 
 // https://stackoverflow.com/a/20012536
 function checkInContainer () {
+    if ('CODESANDBOX_SSE' in process.env) {
+        return true
+    }
     const fs = require('fs')
     if (fs.existsSync(`/proc/1/cgroup`)) {
         const content = fs.readFileSync(`/proc/1/cgroup`, 'utf-8')
-        return /:\/(lxc|docker|kubepods)\//.test(content)
+        return /:\/(lxc|docker|kubepods(\.slice)?)\//.test(content)
     }
 }
 
