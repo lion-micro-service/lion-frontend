@@ -173,8 +173,6 @@ module.exports = (api, options) => {
             request('http://'+args.gateway_host+':'+args.gateway_port+'/register/gateway?port='+port, function (error, response, body) {
                 if (error) {
                     console.log(error);
-                }else {
-                    console.log(response);
                 }
             });
         }

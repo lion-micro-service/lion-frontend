@@ -22,11 +22,11 @@
         <div class="login-code login-input">
           <span class="login-icon iconfont icon-yanzhengma" id="icon-code"></span><input
             maxlength=6 autocomplete="off" class="input input-code" id="vcode"
-            name="vcode" type="text" placeholder="请输入验证码" /> <img width="100"
+            name="vcode" type="text" placeholder="请输入验证码" /> <img
             class="imgs-code"
             id="vcode-image" />
         </div>
-        <div class="login-button" id="loginButton">登录2</div>
+        <div class="login-button" id="loginButton">登录</div>
         <footer class="footer">
           <div class="copyright">
             Lion ©2020-2021 Created by <a href="#" onclick="window.open('https://github.com/lion-micro-service');">Mr.Liu</a>
@@ -53,79 +53,81 @@
     components:{}
   })
   export default class Index extends Vue {
-    private verKey:string;
     public mounted(): void {
-        $.backstretch([ img1,img2,img3 ], {
-          fade : 1000,
-          duration : 8000
-        });
+      let verKey:string;
+      $.backstretch([ img1,img2,img3 ], {
+        fade : 1000,
+        duration : 8000
+      });
 
-        $(".input:not([type=checkbox])").blur(function() {
+      $(".input:not([type=checkbox])").blur(function() {
+        if (!this.value) {
+          $(this).addClass("input-error");
+        } else {
+          $(this).removeClass("input-error");
+        }
+      });
+
+      $("#loginButton").click(function() {
+
+        let isError:boolean = false;
+        $(".input:not([type=checkbox])").each(function(){
           if (!this.value) {
             $(this).addClass("input-error");
+            isError = true;
           } else {
             $(this).removeClass("input-error");
           }
         });
-
-        $("#loginButton").click(function() {
-
-          $(".input:not([type=checkbox])").each(function(){
-            if (!this.value) {
-              $(this).addClass("input-error");
-            } else {
-              $(this).removeClass("input-error");
-            }
-          });
-          if ($(".input-error")==null) {
-            $("#loading").attr("hidden",false);
-            const fd = new FormData();
-            fd.append("verKey", this.verKey);
-            fd.append("vcode", $('#vcode').val());
-            fd.append("grant_type", "password");
-            fd.append("client_id", "console");
-            fd.append("client_secret", "console");
-            fd.append("username", $('#account').val());
-            fd.append("password", $.md5($('#password').val()));
-            $.ajax({
-              url: process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+'/lion-oauth2-authorization-server/oauth/token?_t='+new Date().getTime(),
-              type: 'post',
-              processData: false,
-              contentType: false,
-              data: fd,
-              success: function (data) {
-                if (data.status===200){
-                  sessionStorage.setItem("token",data.data.access_token);
-                  window.location.href="/frame";
-                }else {
-                  toastr.error(data.message);
-                }
-                $("#loading").attr("hidden",true);
-              }
-            })
-          }
-        });
-
-        const captcha = function (){
+        if (!isError) {
+          $("#loading").attr("hidden",false);
+          const fd = new FormData();
+          fd.append("verKey", verKey);
+          fd.append("vcode", $('#vcode').val());
+          fd.append("grant_type", "password");
+          fd.append("client_id", "console");
+          fd.append("client_secret", "console");
+          fd.append("username", $('#account').val());
+          fd.append("password", $.md5($('#password').val()));
           $.ajax({
-            url: process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+'/lion-common-console-restful/captcha/console/fresh?_t='+new Date().getTime(),
-            type: 'get',
+            url: process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+'/lion-oauth2-authorization-server/oauth/token?_t='+new Date().getTime(),
+            type: 'post',
             processData: false,
             contentType: false,
+            data: fd,
             success: function (data) {
               if (data.status===200){
-                this.verKey = data.data.key;
-                $('#vcode-image').attr('src', data.data.image);
+                sessionStorage.setItem("token",data.data.access_token);
+                window.location.href="/frame";
               }else {
                 toastr.error(data.message);
               }
+              $("#loading").attr("hidden",true);
             }
           })
-        };
-        $("#vcode-image").click(function() {
-          captcha();
-        });
+        }
+      });
+
+      const captcha = function (){
+        $.ajax({
+          url: process.env.VUE_APP_BASEURL+process.env.VUE_APP_BASEAPI+'/lion-common-console-restful/captcha/console/fresh?_t='+new Date().getTime(),
+          type: 'get',
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            if (data.status===200){
+              verKey = data.data.key;
+              $('#vcode-image').attr('src', data.data.image);
+            }else {
+              toastr.error(data.message);
+            }
+          }
+        })
+      };
+      $("#vcode-image").click(function() {
         captcha();
+      });
+      captcha();
     }
   }
 // import $ from './assets/js/jquery/jquery-3.2.1.min.js';
