@@ -14,7 +14,7 @@
 import {Options, Emit, Inject, Model, Prop, Provide, Vue, Watch} from 'vue-property-decorator';
 import {MenuModule} from "@/frame/store/modules/menu";
 
-@Options({})
+@Options({components:{}})
 export default class ReuseTab extends Vue {
 }
 </script>

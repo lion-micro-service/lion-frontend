@@ -76,7 +76,7 @@
     import axios from "@lion/lion-frontend-core/src/network/axios";
     let md5 = require('md5');
     import { message } from 'ant-design-vue'
-    @Options({})
+    @Options({components:{}})
     export default class Top extends Vue {
 
         private maskClosable:boolean=false;
