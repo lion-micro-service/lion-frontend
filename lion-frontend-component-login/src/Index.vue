@@ -130,55 +130,6 @@
       captcha();
     }
   }
-// import $ from './assets/js/jquery/jquery-3.2.1.min.js';
-// import './assets/js/jquery/jquery.cookie.js';
-// // import './assets/js/jquery/md5.js';
-// // import './assets/js/jquery/jquery.backstretch.min.js';
-// import toastr from './assets/login/toastr.min.js';
-
-// $(function() {
-//
-//   var verKey;
-//   toastr.options = {
-//     "timeOut": "5000",
-//     "positionClass": "toast-top-center"
-//   }
-//   //单个输入框验证
-//   $(".input:not([type=checkbox])").blur(function() {
-//     if (!this.value) {
-//       $(this).addClass("input-error");
-//     } else {
-//       $(this).removeClass("input-error");
-//     }
-//   });
-//
-//   if ($.cookie("rem_name") && $.cookie("rem_pwd")) {
-//     $("#account").val($.cookie("rem_name"));
-//     $("#password").val($.cookie("rem_pwd"));
-//     $("#rememberMe")[0].checked = true;
-//   }
-
-//   $.backstretch([ img1,img2,img3 ], {
-//     fade : 1000,
-//     duration : 8000
-//   });
-//   var colors = {
-//     "0" : "10px 5px 70px #0d957a",
-//     "1" : "10px 5px 70px #ABB3A6",
-//     "2" : "10px 5px 70px #002842",
-//   };
-//   $(window).on("backstretch.before", function(e, instance, index) {
-//
-//     $(".login").css("box-shadow", colors[index]);
-//   });
-//
-//   //刷新验证码
-
-//
-
-//
-//   captcha();
-// });
 </script>
 
 
