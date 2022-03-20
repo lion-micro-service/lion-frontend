@@ -98,7 +98,7 @@
             success: function (data) {
               if (data.status===200){
                 sessionStorage.setItem("token",data.data.access_token);
-                window.location.href=location.host+"/frame";
+                window.location.href=window.location.protocol+"//"+location.host+"/frame";
               }else {
                 toastr.error(data.message);
               }
