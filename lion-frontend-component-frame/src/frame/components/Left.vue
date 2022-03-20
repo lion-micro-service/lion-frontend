@@ -84,9 +84,9 @@
 
         private click( url:string,currentMeunTitle:Array<string>):void{
             if (url && url !== ''){
-                MenuModule.setCurrentMeun(currentMeunTitle);
-                url = url+(url.indexOf("?")>-1?"&":"?")+"_t="+new Date().getTime();
-                Object(document.getElementById("contentIframe")).src = window.location.protocol+"//"+location.host+url;
+              MenuModule.setCurrentMeun(currentMeunTitle);
+              url = url+(url.indexOf("?")>-1?"&":"?")+"_t="+new Date().getTime();
+              Object(document.getElementById("contentIframe")).src = window.location.protocol+"//"+window.location.host+url;
             }
         }
     }
