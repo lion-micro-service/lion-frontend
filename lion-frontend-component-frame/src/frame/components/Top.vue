@@ -3,57 +3,59 @@
         <a-layout-header class="header">
             <div class="logo">
                 <a>
-                    <img class="expanded" src="@/assets/logo-full.svg" style="max-height:40px;" />
+                    <img class="expanded" src="@/assets/智联蔚来LOGO透明底(900x900).png" style="width: 100px;" />
                 </a>
             </div>
 
             <div class="top-nav-wrap">
                 <ul class="top-nav">
                     <li class="hidden-xs">
-                        <a-dropdown>
-                            <div class="item">
-                                <div class="d-flex align-items-center px-sm">
-                                    <a-avatar :src="headPortraitUrl" />
-                                    <samp style="margin-left: 10px;">{{user.name}}</samp>
-                                </div>
-                            </div>
-                            <a-menu slot="overlay" @click="handleCommand">
-                                <a-menu-item key="editHeadPortrait">
-                                    <i class="fa fa-cog"></i>
-                                    修改头像</a-menu-item>
-                                <a-menu-divider />
-                                <a-menu-item key="editPassword">
-                                    <i class="fa fa-cog"></i>
-                                    修改密码</a-menu-item>
-                                <a-menu-divider />
-                                <a-menu-item divided key="logout">
-                                    <i class="fa fa-sign-out"></i>
-                                    退出登录</a-menu-item>
-                            </a-menu>
-                        </a-dropdown>
+                      <a-dropdown placement="bottomRight">
+                        <div class="item">
+                          <div class="d-flex align-items-center px-sm">
+                            <a-avatar :src="headPortraitUrl" />
+                            <samp style="margin-left: 10px;">{{user.name}}</samp>
+                          </div>
+                        </div>
+                        <template #overlay>
+                          <a-menu slot="overlay" @click="handleCommand">
+                            <a-menu-item key="editHeadPortrait">
+                              <i class="fa fa-cog"></i>
+                              修改头像</a-menu-item>
+                            <a-menu-divider />
+                            <a-menu-item key="editPassword">
+                              <i class="fa fa-cog"></i>
+                              修改密码</a-menu-item>
+                            <a-menu-divider />
+                            <a-menu-item divided key="logout">
+                              <i class="fa fa-sign-out"></i>
+                              退出登录</a-menu-item>
+                          </a-menu>
+                        </template>
+                      </a-dropdown>
                     </li>
                 </ul>
             </div>
         </a-layout-header>
 
-        <a-modal destroyOnClose v-model="editPasswordModal" width="800px" title="修改密码" centered @ok="updatePassword" :maskClosable="maskClosable" cancelText="关闭" okText="保存">
-            <a-form-model layout="inline" ref="editPasswordForm" :model="editPasswordModel" :rules="editPasswordModelRules" >
+        <a-modal destroyOnClose v-model:visible="editPasswordModal" width="800px" title="修改密码" centered @ok="updatePassword" :maskClosable="maskClosable" cancelText="关闭" okText="保存">
+            <a-form layout="inline" ref="editPasswordForm" :model="editPasswordModel" :rules="editPasswordModelRules" >
                 <a-row>
                     <a-col :span="12">
-                        <a-form-model-item label="密码" prop="pass" ref="pass" >
-                            <a-input-password  placeholder="请输入密码" v-model="editPasswordModel.pass" autocomplete="off"/>
-                        </a-form-model-item>
+                        <a-form-item label="密码" name="pass" ref="pass" >
+                            <a-input-password  placeholder="请输入密码" v-model:value="editPasswordModel.pass" autocomplete="off"/>
+                        </a-form-item>
                     </a-col>
                     <a-col :span="12">
-                        <a-form-model-item label="确认密码" prop="confirmPass" ref="confirmPass" >
-                            <a-input-password  placeholder="请输入确认密码" v-model="editPasswordModel.confirmPass" autocomplete="off"/>
-                        </a-form-model-item>
+                        <a-form-item label="确认密码" name="confirmPass" ref="confirmPass" >
+                            <a-input-password  placeholder="请输入确认密码" v-model:value="editPasswordModel.confirmPass" autocomplete="off"/>
+                        </a-form-item>
                     </a-col>
                 </a-row>
-            </a-form-model>
+            </a-form>
         </a-modal>
 
-        <a-modal destroyOnClose v-model="editHeadPortraitModal" width="400px" title="修改头像" centered @ok="updateHeadPortrait" :maskClosable="maskClosable" cancelText="关闭" okText="保存">
+        <a-modal destroyOnClose v-model:visible="editHeadPortraitModal" width="400px" title="修改头像" centered @ok="updateHeadPortrait" :maskClosable="maskClosable" cancelText="关闭" okText="保存">
             <a-upload :action="uploadAction" accept="image/png, image/jpeg" list-type="picture-card" :file-list="fileList" @change="(e)=>headPortraitChange(e)" :remove="function(file){headPortraitRemove(file)} " @preview="handlePreview">
                 <div v-if="fileList.length < 1">
                     <a-icon type="plus" />
@@ -85,8 +87,8 @@
         private editPasswordModal:boolean=false;
         private editPasswordModel:any={};
         private editPasswordModelRules:any={
-            pass:[{required:true,validator:this.validatorPass, trigger:'blur'}],
-            confirmPass:[{required:true,validator:this.validatorConfimPass, trigger:'blur'}],
+            pass:[{required:true,validator:(rule :any, value:string) => {return this.validatorPass(rule,value,this)}, trigger:'blur'}],
+            confirmPass:[{required:true,validator:(rule :any, value:string) => {this.validatorConfimPass(rule,value,this)}, trigger:'blur'}],
         }
         private user:any={name:""};
         private fileList:Array<any>=[];
@@ -98,34 +100,32 @@
         private previewImage:any="";
         /**
          * 校验密码
-         * @param rule
-         * @param value
-         * @param callback
          */
-        private validatorPass(rule :any, value:string, callback:any):void{
-            if (!value || value.trim() === ''){
-                callback(new Error('请输入密码'));
-            }else{
-                if (this.editPasswordModel.confirmPass && this.editPasswordModel.confirmPass.trim() !== ''){
-                    (this.$refs.form as any).validateField("confirmPass");
-                }
-                callback();
+        private validatorPass(rule :any, value:string, _this:any):void{
+          let promise:any=null;
+          if (!value || value.trim() === ''){
+            promise = Promise.reject('请输入密码');
+          }else{
+            if (this.editPasswordModel.confirmPass && this.editPasswordModel.confirmPass.trim() !== ''){
+                (this.$refs.form as any).validateField("confirmPass");
             }
+            promise = Promise.resolve();
+          }
+          return promise;
         }
 
         /**
          * 校验确认密码
-         * @param rule
-         * @param value
-         * @param callback
          */
-        private validatorConfimPass(rule :any, value:string, callback:any):void{
-            if (!value || value.trim() === '' ){
-                callback(new Error("请输入确认密码！"));
-            }else if (this.editPasswordModel.pass !== this.editPasswordModel.confirmPass){
-                callback(new Error("两次输入的密码不一致！"));
-            }
-            callback();
+        private validatorConfimPass(rule :any, value:string, _this:any):void{
+          let promise:any=null;
+          if (!value || value.trim() === '' ){
+            promise = Promise.reject('请输入确认密码');
+          }else if (this.editPasswordModel.pass !== this.editPasswordModel.confirmPass){
+            promise = Promise.reject('两次输入的密码不一致');
+          }
+          promise = Promise.resolve();
+          return promise;
         }
 
       public mounted():void{
