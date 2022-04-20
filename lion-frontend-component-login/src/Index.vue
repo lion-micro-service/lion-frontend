@@ -8,7 +8,7 @@
       <section class="login">
         <div class='message-top'>
         </div>
-        <div class="login-title">Lion 管理平台</div>
+        <div class="login-title">智联工单管理平台</div>
         <div class="login-name login-input">
           <span class="login-icon iconfont icon-yonghuming" id="icon-name"></span><input
             id="account" autocomplete="off" name="account" class="input"
@@ -29,7 +29,7 @@
         <div class="login-button" id="loginButton">登录</div>
         <footer class="footer">
           <div class="copyright">
-            Lion ©2020-2021 Created by <a href="#" onclick="window.open('https://github.com/lion-micro-service');">Mr.Liu</a>
+            All Right Reseved ©2022-2022 <a href="#" onclick="window.open('http://www.smartlinks.com.cn');">广东智联蔚来科技有限公司</a>
           </div>
         </footer>
       </section>
@@ -69,7 +69,7 @@
       });
 
       $("#loginButton").click(function() {
-
+          debugger;
         let isError:boolean = false;
         $(".input:not([type=checkbox])").each(function(){
           if (!this.value) {
