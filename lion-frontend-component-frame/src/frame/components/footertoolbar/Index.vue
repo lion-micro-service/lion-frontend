@@ -6,7 +6,7 @@
         <div class="right">
             <slot name ="children">
                 <div slot="children" style="textAlign: center">
-                  All Right Reseved ©2022-2022 <a href="#" onclick="window.open('http://www.smartlinks.com.cn');">广东智联蔚来科技有限公司</a>
+                  All Right Reseved ©2022-2022 <a href="#" onclick="window.open('https://github.com/lion-micro-service');">Mr.Liu</a>
                 </div>
             </slot>
         </div>

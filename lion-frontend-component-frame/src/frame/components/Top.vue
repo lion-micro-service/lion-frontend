@@ -3,7 +3,7 @@
         <a-layout-header class="header">
             <div class="logo">
                 <a>
-                    <img class="expanded" src="@/assets/智联蔚来LOGO透明底(900x900).png" style="width: 100px;" />
+                    <img class="expanded" src="@/assets/logo-full.svg" style="width: 100px;" />
                 </a>
             </div>
 

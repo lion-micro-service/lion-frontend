@@ -8,7 +8,8 @@ declare global {
     // @ts-ignore
     interface ElementClass extends Vue {}
     interface IntrinsicElements {
-      [elem: string]: any
+      [elem: string]: any;
     }
   }
 }
+
