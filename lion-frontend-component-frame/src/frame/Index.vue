@@ -6,7 +6,7 @@
         <div id="content">
             <iframe ref="contentIframe" id="contentIframe" width="100%" frameborder=”no” border=”0″ marginwidth=”0″ marginheight=”0″ scrolling=”no” allowtransparency=”yes” src=""></iframe>
         </div>
-        <footer-toolbar></footer-toolbar>
+<!--        <footer-toolbar></footer-toolbar>-->
     </div>
 </template>
 

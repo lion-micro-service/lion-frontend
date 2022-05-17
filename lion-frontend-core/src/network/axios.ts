@@ -82,7 +82,7 @@ service.interceptors.response.use(
     },
     (error: any) => {
         // 异常处理
-        message.error(error);
+        message.error('请求异常');
         pending = [];
         if (error.message === 'cancelDuplicateRequest') {
             // @ts-ignore

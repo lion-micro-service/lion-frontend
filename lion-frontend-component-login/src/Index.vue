@@ -29,7 +29,7 @@
         <div class="login-button" id="loginButton">登录</div>
         <footer class="footer">
           <div class="copyright">
-            All Right Reseved ©2022-2022 <a href="#" onclick="window.open('http://www.smartlinks.com.cn');">广东智联蔚来科技有限公司</a>
+<!--            All Right Reseved ©2022-2022 <a href="#" onclick="window.open('http://www.smartlinks.com.cn');">广东智联蔚来科技有限公司</a>-->
           </div>
         </footer>
       </section>
