@@ -19,7 +19,7 @@
 #export LUAJIT_INC=/usr/local/include/luajit-2.1
 #make clean
 
-sudo apt -y install lua5.3 openssl libssl-dev libpcre3 libpcre3-dev
+sudo apt -y install build-essential lua5.3 openssl libssl-dev libpcre3 libpcre3-dev zlib1g-dev
 
 
 cd ./LuaJIT-2.0.5
@@ -29,7 +29,7 @@ export LUAJIT_INC=/usr/local/include/luajit-2.0
 make clean
 
 rm -rf /usr/local/nginx
-cd ../nginx-1.20.2
+cd ../nginx-1.22.0
 ./configure --without-http_gzip_module --with-http_gzip_static_module --with-http_ssl_module --add-module=../ngx_devel_kit-0.3.1 --add-module=../lua-nginx-module-0.10.14 --with-ld-opt="-Wl,-rpath,/usr/local/lib"
 make && make install
 make clean

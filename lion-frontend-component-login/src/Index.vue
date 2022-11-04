@@ -8,7 +8,7 @@
       <section class="login">
         <div class='message-top'>
         </div>
-        <div class="login-title">Lion管理平台</div>
+        <div class="login-title">智趣垃圾分类管理平台</div>
         <div class="login-name login-input">
           <span class="login-icon iconfont icon-yonghuming" id="icon-name"></span><input
             id="account" autocomplete="off" name="account" class="input"

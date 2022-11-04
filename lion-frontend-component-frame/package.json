@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --mode dev",
     "build": "vue-cli-service build --mode test",
-    "lion-serve": "vue-cli-service lion-serve --gateway_host=192.168.177.133 --gateway_port=80 --mode test"
+    "lion-serve": "vue-cli-service lion-serve --gateway_host=192.168.8.166 --gateway_port=80 --mode test"
   },
   "dependencies": {
     "@lion/lion-frontend-core": "1.1.0"

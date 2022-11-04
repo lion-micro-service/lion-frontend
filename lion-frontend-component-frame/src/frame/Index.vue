@@ -28,10 +28,12 @@
     #content {
         margin-top: 100px;
         margin-left: 200px;
-        min-height: e("calc(100vh - 154px)")
+        //min-height: e("calc(100vh - 154px)")
+      min-height: e("calc(100vh - 107px) ")
     }
     #contentIframe{
-        min-height: e("calc(100vh - 160px)");
+        //min-height: e("calc(100vh - 160px)");
+      min-height: e("calc(100vh - 107px)");
         padding-left: 10px;
         padding-top: 10px;
         padding-right: 10px;

@@ -7,12 +7,10 @@
               <template v-for="childValue in value.children">
                 <a-menu-item v-if="childValue.type.key === 1"  :id="childValue.id" @click="click(childValue.url,[value.name,childValue.name])" :key="childValue.id">{{childValue.name}}</a-menu-item>
               </template>
+
               <template v-for="child in value.children">
                 <a-sub-menu v-if="child.type.key === 0" :key="child.id" :title="child.name">
-                  <template v-for="childValue in value.children">
-                    <a-menu-item v-if="childValue.type.key === 1"  :id="childValue.id" @click="click(childValue.url,[value.name,childValue.name])" :key="childValue.id">{{childValue.name}}</a-menu-item>
-                  </template>
-                  <a-menu-item :id="childValue.id" @click="click(childValue.url,[value.name,childValue.name])" v-for="childValue in child.children" :key="childValue.id">{{childValue.name}}</a-menu-item>
+                  <a-menu-item :id="childValue.id" @click="click(childValue.url,[value.name,child.name,childValue.name])" v-for="childValue in child.children" :key="childValue.id">{{childValue.name}}</a-menu-item>
                 </a-sub-menu>
               </template>
             </a-sub-menu>

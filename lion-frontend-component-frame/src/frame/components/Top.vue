@@ -88,7 +88,7 @@
         private editPasswordModel:any={};
         private editPasswordModelRules:any={
             pass:[{required:true,validator:(rule :any, value:string) => {return this.validatorPass(rule,value,this)}, trigger:'blur'}],
-            confirmPass:[{required:true,validator:(rule :any, value:string) => {this.validatorConfimPass(rule,value,this)}, trigger:'blur'}],
+            confirmPass:[{required:true,validator:(rule :any, value:string) => {return this.validatorConfimPass(rule,value,this)}, trigger:'blur'}],
         }
         private user:any={name:""};
         private fileList:Array<any>=[];
@@ -102,15 +102,15 @@
          * 校验密码
          */
         private validatorPass(rule :any, value:string, _this:any):void{
-          let promise:any=null;
+          let promise:any=Promise.resolve();
           if (!value || value.trim() === ''){
             promise = Promise.reject('请输入密码');
-          }else{
-            if (this.editPasswordModel.confirmPass && this.editPasswordModel.confirmPass.trim() !== ''){
-                (this.$refs.form as any).validateField("confirmPass");
-            }
-            promise = Promise.resolve();
           }
+          // else{
+          //   if (this.editPasswordModel.confirmPass && this.editPasswordModel.confirmPass.trim() !== ''){
+          //     (this.$refs.editPasswordForm as any).validateField("confirmPass");
+          //   }
+          // }
           return promise;
         }
 
@@ -118,13 +118,12 @@
          * 校验确认密码
          */
         private validatorConfimPass(rule :any, value:string, _this:any):void{
-          let promise:any=null;
+          let promise:any=Promise.resolve();
           if (!value || value.trim() === '' ){
             promise = Promise.reject('请输入确认密码');
           }else if (this.editPasswordModel.pass !== this.editPasswordModel.confirmPass){
             promise = Promise.reject('两次输入的密码不一致');
           }
-          promise = Promise.resolve();
           return promise;
         }
 
@@ -176,18 +175,24 @@
 
         private updatePassword():void{
             let formData=new FormData();
+            let _this = this;
+          (this.$refs.editPasswordForm as any).validate().then(() => {
             formData.append('password',md5(this.editPasswordModel.pass));
             axios.put("/lion-upms-console-restful/user/console/current/user/passwod/update",formData)
-            .then((data)=>{
-                if (Object(data).status === 200){
+                .then((data)=>{
+                  if (Object(data).status === 200){
                     message.success("修改密码成功");
-                }
-            })
-            .catch(fail => {
-            })
-            .finally(()=>{
-            });
-
+                    _this.editPasswordModel= {};
+                    (_this.$refs.editPasswordForm as any).clearValidate();
+                    (_this.$refs.editPasswordForm as any).resetFields();
+                    _this.editPasswordModal = false;
+                  }
+                })
+                .catch(fail => {
+                })
+                .finally(()=>{
+                });
+          })
         }
 
         private updateHeadPortrait():void{

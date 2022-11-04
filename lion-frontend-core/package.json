@@ -32,16 +32,15 @@
     "webpack": "4.46.0"
   },
   "peerDependencies": {
-    "core-js": "3.22.5",
-    "jquery": "3.6.0",
+    "core-js": "3.26.0",
     "s-vuex-class": "0.4.1",
-    "vue": "3.2.33",
-    "vue-router": "4.0.15",
+    "vue": "3.2.41",
+    "vue-router": "4.1.6",
     "vuex": "4.0.2",
     "md5": "2.3.0",
-    "ant-design-vue": "3.2.3",
-    "axios": "0.27.0",
-    "moment": "2.29.3"
+    "ant-design-vue": "3.2.12",
+    "axios": "0.24.0",
+    "moment": "2.29.4"
   },
   "publishConfig": {
     "registry": "http://npm.nexus.com/repository/hosted-repository-npm/"
