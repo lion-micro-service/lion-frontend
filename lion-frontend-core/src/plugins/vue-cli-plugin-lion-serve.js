@@ -170,7 +170,7 @@ module.exports = (api, options) => {
         })
 
         const registerGateway = function registerGateway() {
-            request('http://'+args.gateway_host+':'+args.gateway_port+'/register/gateway?port='+port, function (error, response, body) {
+            request('http://'+args.gateway_host+':'+args.gateway_port+'/register/gateway?port='+port+'&register_host='+args.register_host, function (error, response, body) {
                 if (error) {
                     console.log(error);
                 }

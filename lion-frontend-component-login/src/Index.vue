@@ -54,6 +54,7 @@
   })
   export default class Index extends Vue {
     public mounted(): void {
+
       let verKey:string;
       $.backstretch([ img1,img2,img3 ], {
         fade : 1000,
@@ -69,7 +70,6 @@
       });
 
       $("#loginButton").click(function() {
-          debugger;
         let isError:boolean = false;
         $(".input:not([type=checkbox])").each(function(){
           if (!this.value) {
@@ -98,7 +98,7 @@
             success: function (data) {
               if (data.status===200){
                 sessionStorage.setItem("token",data.data.access_token);
-                location.href=window.location.protocol+"//"+window.location.host+"/frame";
+                location.href=window.location.protocol+"//"+window.location.host+"/frame/";
               }else {
                 toastr.error(data.message);
               }

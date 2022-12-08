@@ -93,7 +93,11 @@
         private click( url:string,currentMeunTitle:Array<string>):void{
             if (url && url !== ''){
               MenuModule.setCurrentMeun(currentMeunTitle);
-              url = url+(url.indexOf("?")>-1?"&":"?")+"_t="+new Date().getTime();
+              url = url+"/"+(url.indexOf("?")>-1?"&":"?")+"_t="+new Date().getTime();
+              let request_host = sessionStorage.getItem("register_host");
+              if (request_host && request_host != 'null'){
+                url = url+"&request_host=" +request_host;
+              }
               Object(document.getElementById("contentIframe")).src = window.location.protocol+"//"+window.location.host+url;
             }
         }

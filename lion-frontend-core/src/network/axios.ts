@@ -38,7 +38,11 @@ service.interceptors.request.use((config: any) => {
     if (pending.length>=50){
         pending=[];
     }
+    // let request_host = process.env.VUE_APP_REQUEST_HOST;
     config.url = process.env.VUE_APP_BASEAPI +  config.url+(config.url.indexOf("?")>-1?"&":"?")+"_t="+new Date().getTime();
+    // if (request_host) {
+    //     config.url = config.url + "&request_host="+request_host
+    // }
     // neverCancel 配置项，允许多个请求
     if (!config.neverCancel) {
         // 生成cancelToken
@@ -49,6 +53,10 @@ service.interceptors.request.use((config: any) => {
     const token = sessionStorage.getItem("token");
     if (token && token !== ''){
         config.headers.Authorization = `Bearer ${token}`;
+        let request_host = sessionStorage.getItem("register_host");
+        if (request_host && request_host != 'null'){
+            config.headers.request_host = request_host;
+        }
     }
     return config;
 }, (error: any) => {

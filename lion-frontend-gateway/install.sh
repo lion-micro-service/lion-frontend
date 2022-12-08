@@ -30,7 +30,7 @@ make clean
 
 rm -rf /usr/local/nginx
 cd ../nginx-1.22.0
-./configure --without-http_gzip_module --with-http_gzip_static_module --with-http_ssl_module --add-module=../ngx_devel_kit-0.3.1 --add-module=../lua-nginx-module-0.10.14 --with-ld-opt="-Wl,-rpath,/usr/local/lib"
+./configure --with-http_gzip_static_module --with-http_ssl_module --add-module=../ngx_devel_kit-0.3.1 --add-module=../lua-nginx-module-0.10.14 --with-ld-opt="-Wl,-rpath,/usr/local/lib"
 make && make install
 make clean
 

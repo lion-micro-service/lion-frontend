@@ -9,7 +9,8 @@
     "lion-serve": "vue-cli-service lion-serve --mode dev"
   },
   "dependencies": {
-    "@lion/lion-frontend-core": "1.1.0"
+    "@lion/lion-frontend-core": "1.1.0",
+    "jquery": "^3.6.1"
   },
   "devDependencies": {
     "@types/node": "17.0.8",
@@ -33,7 +34,7 @@
     "webpack": "4.46.0"
   },
   "publishConfig": {
-    "registry": "http://npm.nexus.com/repository/hosted-repository-npm/"
+    "registry": "http://192.168.8.213:32129/repository/hosted-repository-npm/"
   },
   "vuePlugins": {
     "service": [

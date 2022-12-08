@@ -43,6 +43,6 @@
     "moment": "2.29.4"
   },
   "publishConfig": {
-    "registry": "http://npm.nexus.com/repository/hosted-repository-npm/"
+    "registry": "http://192.168.8.213:32129/repository/hosted-repository-npm/"
   }
 }

@@ -56,14 +56,24 @@
         </a-modal>
 
         <a-modal destroyOnClose v-model:visible="editHeadPortraitModal" width="400px" title="修改头像" centered @ok="updateHeadPortrait" :maskClosable="maskClosable" cancelText="关闭" okText="保存">
-            <a-upload :action="uploadAction" accept="image/png, image/jpeg" list-type="picture-card" :file-list="fileList" @change="(e)=>headPortraitChange(e)" :remove="function(file){headPortraitRemove(file)} " @preview="handlePreview">
-                <div v-if="fileList.length < 1">
-                    <a-icon type="plus" />
-                    <div class="ant-upload-text">
-                        上传
-                    </div>
-                </div>
+          <div class="clearfix">
+            <a-upload
+                v-model:file-list="fileList"
+                accept="image/png, image/jpeg"
+                :action="uploadAction"
+                list-type="picture-card"
+                @change="(e)=>headPortraitChange(e)"
+                @preview="handlePreview"
+            >
+              <div v-if="fileList.length < 1">
+                <plus-outlined />
+                <div style="margin-top: 8px">Upload</div>
+              </div>
             </a-upload>
+            <a-modal :visible="previewVisible" :footer="null" @cancel="previewVisible=false">
+              <img style="width: 100%" :src="previewImage" />
+            </a-modal>
+          </div>
         </a-modal>
 
         <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
